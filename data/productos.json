@@ -1,0 +1,36 @@
+{
+    "productos": [
+        {
+            "id": 1,
+            "titulo": "Cien años de soledad",
+            "autor": "Gabriel García Márquez",
+            "categoria": "Novela",
+            "precio": 19.99,
+            "portada": "assets/img/cien_anios.jpg"
+        },
+        {
+            "id": 2,
+            "titulo": "El principito",
+            "autor": "Antoine de Saint-Exupéry",
+            "categoria": "Infantil",
+            "precio": 12.50,
+            "portada": "assets/img/principito.jpg"
+        },
+        {
+            "id": 3,
+            "titulo": "1984",
+            "autor": "George Orwell",
+            "categoria": "Ciencia ficción",
+            "precio": 15.00,
+            "portada": "assets/img/1984.jpg"
+        },
+        {
+            "id": 4,
+            "titulo": "Python para todos",
+            "autor": "John Doe",
+            "categoria": "Programación",
+            "precio": 22.00,
+            "portada": "assets/img/python.jpg"
+        }
+    ]
+}
