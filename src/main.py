@@ -1,11 +1,12 @@
 """
 Módulo: main.py
-Propósito: Punto de entrada de la aplicación Libros-Xpress. Inicializa el entorno MVC y ejecuta el catálogo.
-Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.0.0 (Sprint 1 - Catálogo)
+Propósito: Punto de entrada de la aplicación Libros-Xpress. Ajusta el path para importaciones absolutas.
 """
-
 import sys
+import os
+# Agrega la raíz del proyecto al PYTHONPATH para permitir imports desde src
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from PySide6.QtWidgets import QApplication
 from src.models.producto_model import ProductoModel
 from src.views.catalogo_view import CatalogoView
@@ -15,7 +16,6 @@ def main():
     app = QApplication(sys.argv)
     app.setApplicationName("Libros-Xpress")
 
-    # Inicialización MVC para el catálogo
     modelo = ProductoModel("data/productos.json")
     vista = CatalogoView()
     controlador = CatalogoController(vista, modelo)
