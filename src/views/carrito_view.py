@@ -153,4 +153,27 @@ class CarritoView(QMainWindow):
         QMessageBox.critical(self, titulo, mensaje)
 
     def cerrar(self):
-        self.close()
+        self.close()    
+
+# --- Prueba visual de la vista ---
+if __name__ == "__main__":
+    import sys
+    from PySide6.QtWidgets import QApplication
+    app = QApplication(sys.argv)
+    ventana = CarritoView()
+    # Simular algunos items en el carrito
+    class ItemFalso:
+        def __init__(self, titulo, precio, cantidad):
+            self.titulo = titulo
+            self.precio = precio
+            self.cantidad = cantidad
+        def subtotal(self):
+            return self.precio * self.cantidad
+    items_falsos = [
+        ItemFalso("Cien años de soledad", 19.99, 2),
+        ItemFalso("El principito", 12.50, 1)
+    ]
+    ventana.cargar_items(items_falsos)
+    ventana.actualizar_totales(52.48, 6.82, 59.30)
+    ventana.show()
+    sys.exit(app.exec())
