@@ -86,7 +86,7 @@ class AuthController:
     def recuperar_contrasena(self):
         """Muestra un mensaje de recuperación (no implementada)."""
         self.vista.mostrar_mensaje("Recuperar contraseña",
-                                   "Contacta al administrador para restablecer tu contraseña.")
+                                "Contacta al administrador para restablecer tu contraseña.")
 
 
 # --- Prueba del controlador (simulación) ---

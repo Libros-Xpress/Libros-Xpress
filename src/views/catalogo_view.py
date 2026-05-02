@@ -1,8 +1,8 @@
 """
 Módulo: catalogo_view.py
-Propósito: Interfaz gráfica del catálogo de productos con búsqueda avanzada.
+Propósito: Interfaz gráfica del catálogo de productos con búsqueda avanzada e integración al carrito.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.0.0
+Versión: 1.1.0 - Sprint 2 (Integración carrito)
 """
 
 from PySide6.QtWidgets import (
@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
-import os
+
 
 class CatalogoView(QMainWindow):
     """
@@ -34,12 +34,11 @@ class CatalogoView(QMainWindow):
 
     def _configurar_ui(self):
         """Construye y organiza los widgets de la interfaz."""
-        # Widget central
         central = QWidget()
         self.setCentralWidget(central)
         layout_principal = QVBoxLayout(central)
 
-        # --- Barra de búsqueda y filtros ---
+        # --- Barra de búsqueda, filtros y carrito ---
         barra_layout = QHBoxLayout()
         barra_layout.addWidget(QLabel("Buscar:"))
         self.txt_busqueda = QLineEdit()
@@ -59,6 +58,9 @@ class CatalogoView(QMainWindow):
         self.btn_buscar = QPushButton("Buscar")
         barra_layout.addWidget(self.btn_buscar)
 
+        self.btn_carrito = QPushButton("🛒 Carrito")
+        barra_layout.addWidget(self.btn_carrito)
+
         layout_principal.addLayout(barra_layout)
 
         # --- Área de resultados con scroll ---
@@ -69,7 +71,7 @@ class CatalogoView(QMainWindow):
         self.scroll_area.setWidget(self.scroll_widget)
         layout_principal.addWidget(self.scroll_area)
 
-        # Aplicar estilos básicos
+        # Estilos básicos
         self.setStyleSheet("""
             QMainWindow { background-color: #f5f5f5; }
             QLabel { font-size: 13px; }
@@ -89,12 +91,13 @@ class CatalogoView(QMainWindow):
             if item.widget():
                 item.widget().deleteLater()
 
-    def mostrar_productos(self, productos):
+    def mostrar_productos(self, productos, on_agregar=None):
         """
         Muestra los productos en la cuadrícula de resultados.
 
         Args:
             productos (list[Producto]): Lista de productos a mostrar.
+            on_agregar (callable, opcional): Función(titulo, precio) al hacer clic en 'Agregar'.
         """
         self.limpiar_resultados()
         if not productos:
@@ -117,7 +120,6 @@ class CatalogoView(QMainWindow):
             lbl_imagen = QLabel()
             pixmap = QPixmap(producto.portada)
             if pixmap.isNull():
-                # Imagen por defecto
                 pixmap = QPixmap(200, 250)
                 pixmap.fill(Qt.GlobalColor.gray)
             else:
@@ -138,6 +140,13 @@ class CatalogoView(QMainWindow):
             lbl_precio.setAlignment(Qt.AlignmentFlag.AlignCenter)
             lbl_precio.setStyleSheet("color: #0078d4; font-weight: bold; font-size: 16px;")
             layout_producto.addWidget(lbl_precio)
+
+            # Botón Agregar al carrito
+            btn_agregar = QPushButton("Agregar")
+            btn_agregar.setStyleSheet("background-color: #28a745; color: white; padding: 5px; border-radius: 4px;")
+            if on_agregar:
+                btn_agregar.clicked.connect(lambda checked, t=producto.titulo, p=producto.precio: on_agregar(t, p))
+            layout_producto.addWidget(btn_agregar)
 
             self.scroll_layout.addWidget(contenedor, fila, columna)
 
@@ -174,12 +183,14 @@ class CatalogoView(QMainWindow):
         QMessageBox.critical(self, titulo, mensaje)
 
 
-# --- Prueba de interfaz (visual) ---
+# --- Prueba visual de la vista ---
 if __name__ == "__main__":
     import sys
     from PySide6.QtWidgets import QApplication
+
     app = QApplication(sys.argv)
     ventana = CatalogoView()
+
     # Simular carga de algunos productos de prueba
     class ProdFalso:
         def __init__(self, titulo, autor, precio, portada):
@@ -187,11 +198,17 @@ if __name__ == "__main__":
             self.autor = autor
             self.precio = precio
             self.portada = portada
+
     prod_prueba = [
         ProdFalso("Libro A", "Autor A", 9.99, ""),
         ProdFalso("Libro B", "Autor B", 14.99, "")
     ]
-    ventana.mostrar_productos(prod_prueba)
+
+    # Asignar un callback dummy para probar los botones "Agregar"
+    def dummy_agregar(titulo, precio):
+        print(f"[Prueba] Agregado al carrito: {titulo} ${precio:.2f}")
+
+    ventana.mostrar_productos(prod_prueba, on_agregar=dummy_agregar)
     ventana.cargar_autores(["Autor A", "Autor B"])
     ventana.cargar_categorias(["Ficción", "No ficción"])
     ventana.show()

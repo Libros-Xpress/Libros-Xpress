@@ -1,13 +1,12 @@
 """
 Módulo: main.py
-Propósito: Punto de entrada de la aplicación Libros-Xpress. Gestiona autenticación y catálogo.
+Propósito: Punto de entrada de Libros-Xpress. Integra autenticación, catálogo y carrito.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.1.0 - Sprint 1 completo (Catálogo + Autenticación)
+Versión: 1.2.0 - Sprint 2 (Carrito de compras)
 """
 
 import sys
 import os
-# Ajuste de path para importaciones absolutas
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from PySide6.QtWidgets import QApplication
@@ -17,28 +16,35 @@ from src.controllers.auth_controller import AuthController
 from src.models.producto_model import ProductoModel
 from src.views.catalogo_view import CatalogoView
 from src.controllers.catalogo_controller import CatalogoController
+from src.models.carrito_model import Carrito, PedidoModel
+from src.views.carrito_view import CarritoView
+from src.controllers.carrito_controller import CarritoController
 
 def main():
     app = QApplication(sys.argv)
     app.setApplicationName("Libros-Xpress")
 
-    # --- Flujo de autenticación ---
+    # Autenticación
     modelo_usuarios = UsuarioModel("data/database.json")
     vista_login = LoginView()
-    controlador_auth = AuthController(vista_login, modelo_usuarios)
-
-    # Mostrar ventana de login (modal: detiene la ejecución hasta que se cierre)
+    auth_ctrl = AuthController(vista_login, modelo_usuarios)
     vista_login.show()
-    app.exec()  # Necesario para que la ventana se procese y se cierre tras login exitoso
+    app.exec()
 
-    # Si la ventana de login se cerró (porque el login fue exitoso), continuamos
-    # Nota: el cierre se realiza en auth_controller.iniciar_sesion() con vista.cerrar_ventana()
-    # Si no se cerró, el usuario cerró manualmente -> salimos
     if not vista_login.isVisible():
-        # Inicializar catálogo
+        usuario_actual = getattr(auth_ctrl, 'usuario_actual', 'admin')
+
+        # Carrito y pedidos
+        carrito = Carrito()
+        pedido_model = PedidoModel("data/pedidos.json")
+        vista_carrito = CarritoView()
+        carrito_ctrl = CarritoController(vista_carrito, carrito, pedido_model, usuario_actual)
+
+        # Catálogo (con integración del carrito)
         modelo_productos = ProductoModel("data/productos.json")
         vista_catalogo = CatalogoView()
-        controlador_catalogo = CatalogoController(vista_catalogo, modelo_productos)
+        catalogo_ctrl = CatalogoController(vista_catalogo, modelo_productos, carrito_ctrl)
+
         vista_catalogo.show()
         sys.exit(app.exec())
 
