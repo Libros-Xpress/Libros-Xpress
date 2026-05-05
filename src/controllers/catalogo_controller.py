@@ -1,8 +1,8 @@
 """
 Módulo: catalogo_controller.py
-Propósito: Controlador que conecta la vista del catálogo con el modelo de productos e integra el carrito.
+Propósito: Controlador del catálogo con integración al carrito y panel de administración.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.1.0 - Sprint 2 (Integración carrito)
+Versión: 1.2.0 - Sprint 2 (Panel de administración)
 """
 
 import sys
@@ -10,29 +10,35 @@ import os
 if __name__ == "__main__":
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from PySide6.QtWidgets import QMessageBox
+from PySide6.QtWidgets import QApplication
 from src.models.producto_model import ProductoModel
 from src.views.catalogo_view import CatalogoView
 
 
 class CatalogoController:
     """
-    Controlador del catálogo. Maneja las interacciones del usuario y la comunicación con el carrito.
+    Controlador del catálogo. Maneja las interacciones del usuario y la comunicación con el carrito y panel admin.
     """
 
-    def __init__(self, vista: CatalogoView, modelo: ProductoModel, carrito_ctrl):
+    def __init__(self, vista: CatalogoView, modelo: ProductoModel, carrito_ctrl, admin_ctrl=None, es_admin=False):
         """
         Args:
             vista (CatalogoView): Instancia de la vista del catálogo.
             modelo (ProductoModel): Instancia del modelo de productos.
             carrito_ctrl: Instancia de CarritoController para agregar productos.
+            admin_ctrl: Instancia de AdminProductosController (opcional, solo si es admin).
+            es_admin (bool): Indica si el usuario actual es administrador.
         """
         self.vista = vista
         self.modelo = modelo
         self.carrito_ctrl = carrito_ctrl
+        self.admin_ctrl = admin_ctrl
+        self.es_admin = es_admin
         self._configurar_senales()
         self._cargar_filtros()
-        # Mostrar todos los productos al iniciar
+        # Mostrar el botón de panel admin si corresponde
+        if self.es_admin:
+            self.vista.btn_admin.setVisible(True)
         self.mostrar_todos()
 
     def _configurar_senales(self):
@@ -40,6 +46,8 @@ class CatalogoController:
         self.vista.btn_buscar.clicked.connect(self.realizar_busqueda)
         self.vista.txt_busqueda.returnPressed.connect(self.realizar_busqueda)
         self.vista.btn_carrito.clicked.connect(self.abrir_carrito)
+        if self.es_admin and self.admin_ctrl:
+            self.vista.btn_admin.clicked.connect(self.abrir_admin)
 
     def _cargar_filtros(self):
         """Carga los combos de autor y categoría desde el modelo."""
@@ -82,11 +90,15 @@ class CatalogoController:
         self.carrito_ctrl.vista.show()
         self.carrito_ctrl.actualizar_vista()
 
+    def abrir_admin(self):
+        """Abre la ventana de administración de productos."""
+        if self.admin_ctrl:
+            self.admin_ctrl.vista.show()
+            self.admin_ctrl.cargar_tabla()
 
-# --- Prueba del controlador (simulación con mock del carrito) ---
+
+# --- Prueba del controlador (simulación con mocks del carrito y admin) ---
 if __name__ == "__main__":
-    import sys
-    from PySide6.QtWidgets import QApplication
     import tempfile
     import json
     import os
@@ -104,9 +116,10 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     vista = CatalogoView()
+    vista.show()  # Necesario para que los widgets hijos reflejen visibilidad real
     modelo = ProductoModel(ruta_tmp)
 
-    # Mock del carrito controller: simula tener el método agregar_al_carrito
+    # Mock del carrito controller
     class MockCarritoCtrl:
         def __init__(self):
             self.agregados = []
@@ -114,20 +127,31 @@ if __name__ == "__main__":
             self.agregados.append((titulo, precio))
         def actualizar_vista(self):
             pass
-        # La vista del carrito no se usa en la prueba, se puede omitir
         vista = None
 
     mock_carrito = MockCarritoCtrl()
-    controlador = CatalogoController(vista, modelo, mock_carrito)
 
-    # Act - simular una búsqueda automática
-    vista.txt_busqueda.setText("Python")
-    controlador.realizar_busqueda()
+    # Mock del admin controller (para probar que se inicialice correctamente)
+    class MockAdminCtrl:
+        def __init__(self):
+            self.abierto = False
+        def cargar_tabla(self):
+            pass
+        def vista(self):
+            pass
 
-    # Assert: la vista debe tener al menos un widget (el producto encontrado)
-    assert vista.scroll_layout.count() > 0, "Debería haber al menos un widget en la vista"
-    print("✅ Prueba del controlador: búsqueda ejecutada y vista actualizada.")
+    mock_admin = MockAdminCtrl()
+
+    # Act: instanciar controlador con admin
+    controlador = CatalogoController(vista, modelo, mock_carrito, admin_ctrl=mock_admin, es_admin=True)
+    app.processEvents()  # Procesar eventos para actualizar la UI
+
+    # Assert: el botón admin debe estar visible
+    assert vista.btn_admin.isVisible(), "El botón Panel Admin debe estar visible para administradores"
+    print("✅ Prueba del controlador con panel admin: botón visible y controlador iniciado correctamente.")
 
     # Limpiar archivo temporal
     os.unlink(ruta_tmp)
+    vista.close()
+    app.quit()
     sys.exit()
