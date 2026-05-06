@@ -4,6 +4,16 @@
             "username": "admin",
             "password": "123",
             "rol": "Admin"
+        },
+        {
+            "username": "RoBERT",
+            "password": "ASLAN",
+            "rol": "Cliente"
+        },
+        {
+            "username": "ROBERT",
+            "password": "ASLAN",
+            "rol": "Cliente"
         }
     ]
 }
