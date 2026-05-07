@@ -1,8 +1,8 @@
 """
 Módulo: main.py
-Propósito: Punto de entrada de Libros-Xpress. Orquesta autenticación, catálogo, carrito y panel admin.
+Propósito: Punto de entrada de Libros-Xpress. Orquesta autenticación, catálogo, carrito, panel admin, cupones e historial.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.3.0 - Sprint 2 completo (Carrito + Panel Admin)
+Versión: 1.4.0 - Sprint 3 (Cupones + Historial de pedidos)
 """
 
 import sys
@@ -21,6 +21,9 @@ from src.views.carrito_view import CarritoView
 from src.controllers.carrito_controller import CarritoController
 from src.views.admin_productos_view import AdminProductosView
 from src.controllers.admin_productos_controller import AdminProductosController
+from src.models.cupon_model import CuponModel
+from src.views.historial_view import HistorialView
+from src.controllers.historial_controller import HistorialController
 
 def main():
     app = QApplication(sys.argv)
@@ -35,36 +38,41 @@ def main():
 
     if not vista_login.isVisible():
         usuario_actual = getattr(auth_ctrl, 'usuario_actual', 'admin')
-        # Determinamos el rol de forma simplificada (podría consultarse del modelo)
         rol = "Admin" if usuario_actual == "admin" else "Cliente"
 
-        # Carrito y pedidos
+        # Modelos compartidos
+        cupon_model = CuponModel("data/cupones.json")
         carrito = Carrito()
         pedido_model = PedidoModel("data/pedidos.json")
-        vista_carrito = CarritoView()
-        carrito_ctrl = CarritoController(vista_carrito, carrito, pedido_model, usuario_actual)
-
-        # Modelo de productos compartido
         modelo_productos = ProductoModel("data/productos.json")
 
-        # Panel de administración (solo para admin)
+        # Carrito y pagos (con cupones)
+        vista_carrito = CarritoView()
+        carrito_ctrl = CarritoController(vista_carrito, carrito, pedido_model, usuario_actual, cupon_model)
+
+        # Panel de administración (solo admin)
         admin_ctrl = None
         if rol == "Admin":
             vista_admin = AdminProductosView()
             admin_ctrl = AdminProductosController(vista_admin, modelo_productos)
-            # El refresh_callback se asigna después, cuando tengamos catalogo_ctrl
 
-        # Catálogo (con integración del carrito y panel admin)
+        # Historial de pedidos (compartido)
+        vista_historial = HistorialView()
+        historial_ctrl = HistorialController(vista_historial, pedido_model)
+
+        # Catálogo
         vista_catalogo = CatalogoView()
         catalogo_ctrl = CatalogoController(
             vista_catalogo,
             modelo_productos,
             carrito_ctrl,
             admin_ctrl=admin_ctrl,
-            es_admin=(rol == "Admin")
+            es_admin=(rol == "Admin"),
+            usuario_actual=usuario_actual,
+            historial_ctrl=historial_ctrl
         )
 
-        # Completar el callback de refresco para que el panel admin actualice el catálogo
+        # Refresh callback para el panel admin
         if admin_ctrl:
             admin_ctrl.refresh_callback = catalogo_ctrl.mostrar_todos
 
