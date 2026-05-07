@@ -1,8 +1,8 @@
 """
 Módulo: carrito_view.py
-Propósito: Interfaz gráfica del carrito de compras y checkout para Libros-Xpress.
+Propósito: Interfaz gráfica del carrito de compras, checkout y aplicación de cupones de descuento.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.0.0
+Versión: 1.1.0 - Sprint 3 (Cupones de descuento)
 """
 
 from PySide6.QtWidgets import (
@@ -20,7 +20,7 @@ class CarritoView(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Carrito de Compras - Libros-Xpress")
-        self.setMinimumSize(600, 400)
+        self.setMinimumSize(600, 450)
         self._configurar_ui()
         self._centrar_en_pantalla()
 
@@ -49,19 +49,32 @@ class CarritoView(QMainWindow):
         self.tabla.setColumnWidth(2, 80)
         layout.addWidget(self.tabla)
 
-        # Resumen
+        # Sección de código promocional
+        cupon_layout = QHBoxLayout()
+        cupon_layout.addWidget(QLabel("Código promocional:"))
+        self.txt_cupon = QLineEdit()
+        self.txt_cupon.setPlaceholderText("Ingresa tu código")
+        cupon_layout.addWidget(self.txt_cupon)
+        self.btn_aplicar_cupon = QPushButton("Aplicar")
+        cupon_layout.addWidget(self.btn_aplicar_cupon)
+        layout.addLayout(cupon_layout)
+
+        # Resumen de totales
         resumen_layout = QHBoxLayout()
         self.lbl_subtotal = QLabel("Subtotal: $0.00")
+        self.lbl_descuento = QLabel("Descuento: -$0.00")
+        self.lbl_descuento.setVisible(False)
         self.lbl_impuesto = QLabel("Impuesto (13%): $0.00")
         self.lbl_total = QLabel("Total: $0.00")
         self.lbl_total.setStyleSheet("font-weight: bold; font-size: 14px;")
         resumen_layout.addWidget(self.lbl_subtotal)
+        resumen_layout.addWidget(self.lbl_descuento)
         resumen_layout.addWidget(self.lbl_impuesto)
         resumen_layout.addStretch()
         resumen_layout.addWidget(self.lbl_total)
         layout.addLayout(resumen_layout)
 
-        # Botones
+        # Botones de acción
         botones_layout = QHBoxLayout()
         self.btn_seguir = QPushButton("Seguir Comprando")
         self.btn_actualizar = QPushButton("Actualizar")
@@ -130,10 +143,20 @@ class CarritoView(QMainWindow):
             return self.tabla.item(seleccion, 0).text()
         return ""
 
-    def actualizar_totales(self, subtotal: float, impuesto: float, total: float):
+    def obtener_codigo_cupon(self) -> str:
+        """Retorna el texto del campo de código promocional."""
+        return self.txt_cupon.text().strip()
+
+    def actualizar_totales(self, subtotal: float, impuesto: float, total: float, descuento: float = 0.0):
+        """Actualiza los labels de totales y muestra el descuento si es mayor a 0."""
         self.lbl_subtotal.setText(f"Subtotal: ${subtotal:.2f}")
         self.lbl_impuesto.setText(f"Impuesto (13%): ${impuesto:.2f}")
         self.lbl_total.setText(f"Total: ${total:.2f}")
+        if descuento > 0:
+            self.lbl_descuento.setText(f"Descuento: -${descuento:.2f}")
+            self.lbl_descuento.setVisible(True)
+        else:
+            self.lbl_descuento.setVisible(False)
 
     def mostrar_seccion_pago(self, mostrar: bool):
         self.grupo_pago.setVisible(mostrar)
@@ -153,7 +176,8 @@ class CarritoView(QMainWindow):
         QMessageBox.critical(self, titulo, mensaje)
 
     def cerrar(self):
-        self.close()    
+        self.close()
+
 
 # --- Prueba visual de la vista ---
 if __name__ == "__main__":
