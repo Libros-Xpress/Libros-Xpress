@@ -2,7 +2,7 @@
 Módulo: carrito_model.py
 Propósito: Modelo de carrito de compras y pedidos para Libros-Xpress.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.0.0
+Versión: 1.1.0 - Sprint 3 (Descuentos y estado en pedidos)
 """
 
 from typing import List, Optional
@@ -98,18 +98,30 @@ class PedidoModel:
         except Exception as e:
             raise IOError(f"No se pudo guardar pedidos: {e}")
 
-    def crear_pedido(self, cliente: str, carrito: Carrito) -> dict:
+    def crear_pedido(self, cliente: str, carrito: Carrito, descuento: float = 0.0) -> dict:
         """
-        Crea un nuevo pedido a partir del carrito, lo guarda y retorna el pedido.
+        Crea un nuevo pedido a partir del carrito, aplica un descuento opcional, lo guarda y retorna el pedido.
+
+        Args:
+            cliente (str): Nombre del cliente.
+            carrito (Carrito): Instancia del carrito con los items.
+            descuento (float): Monto a descontar del total (por defecto 0).
+
+        Returns:
+            dict: Pedido creado con id, fecha, cliente, items, total, descuento y estado.
         """
         if carrito.esta_vacio():
             raise ValueError("El carrito está vacío.")
+        total_original = carrito.total_con_impuesto()
+        total_final = max(0, round(total_original - descuento, 2))
         pedido = {
             "id": len(self.pedidos) + 1,
             "fecha": str(date.today()),
             "cliente": cliente,
             "items": [{"titulo": item.titulo, "cantidad": item.cantidad, "precio_unitario": item.precio} for item in carrito.items],
-            "total": carrito.total_con_impuesto()
+            "total": total_final,
+            "descuento": descuento,
+            "estado": "Pendiente"
         }
         self.pedidos.append(pedido)
         self.guardar_pedidos()
@@ -122,34 +134,29 @@ class PedidoModel:
 
 # --- Pruebas Unitarias (AAA) ---
 if __name__ == "__main__":
+    import tempfile, os
+
     # Pruebas del Carrito (memoria)
     carrito = Carrito()
-    # Arrange
     carrito.agregar_item("Libro A", 10.0, 2)
     carrito.agregar_item("Libro B", 15.0, 1)
-    # Act
     total = carrito.total()
     imp = carrito.impuesto()
     total_imp = carrito.total_con_impuesto()
-    # Assert
     assert total == 35.0, "El total debe ser 35.0"
     assert imp == 4.55, f"Impuesto esperado 4.55, obtenido {imp}"
     assert total_imp == 39.55, "Total con impuesto incorrecto"
 
-    # Agregar existente
     carrito.agregar_item("Libro A", 10.0, 1)
     assert carrito.items[0].cantidad == 3, "La cantidad debe ser 3"
 
-    # Eliminar
     carrito.eliminar_item("Libro B")
     assert len(carrito.items) == 1
 
-    # Actualizar cantidad a 0 -> eliminar
     carrito.actualizar_cantidad("Libro A", 0)
     assert carrito.esta_vacio()
 
     # Pruebas de PedidoModel con archivo temporal
-    import tempfile, os
     with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as tmp:
         json.dump({"pedidos": []}, tmp)
         ruta_tmp = tmp.name
@@ -157,15 +164,26 @@ if __name__ == "__main__":
     pedido_model = PedidoModel(ruta_tmp)
     carrito2 = Carrito()
     carrito2.agregar_item("Libro X", 20.0, 2)
-    # Crear pedido
+    # Crear pedido sin descuento
     pedido = pedido_model.crear_pedido("admin", carrito2)
     assert pedido['id'] == 1
-    assert pedido['total'] == 45.2  # 40 + 13% = 45.2
+    assert pedido['total'] == 45.2  # 40 + 13% redondeado a 45.2
+    assert pedido['descuento'] == 0.0
+    assert pedido['estado'] == "Pendiente"
+
+    # Crear pedido con descuento
+    carrito2.vaciar()
+    carrito2.agregar_item("Libro Y", 25.0, 1)  # total = 25*1.13=28.25, descuento 5 => 23.25
+    pedido2 = pedido_model.crear_pedido("admin", carrito2, descuento=5.0)
+    assert pedido2['id'] == 2
+    assert abs(pedido2['total'] - 23.25) < 0.01  # tolerancia
+    assert pedido2['descuento'] == 5.0
 
     # Ver persistencia recargando
     pedido_model2 = PedidoModel(ruta_tmp)
-    assert len(pedido_model2.pedidos) == 1
+    assert len(pedido_model2.pedidos) == 2
     assert pedido_model2.obtener_pedidos_cliente("admin")[0]['id'] == 1
+    assert pedido_model2.obtener_pedidos_cliente("admin")[1]['id'] == 2
 
     os.unlink(ruta_tmp)
-    print("✅ Pruebas unitarias del modelo de carrito pasaron correctamente.")
+    print("✅ Pruebas unitarias del modelo de carrito (con descuentos y estado) pasaron correctamente.")
