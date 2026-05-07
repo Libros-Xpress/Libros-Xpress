@@ -1,8 +1,8 @@
 """
 Módulo: catalogo_controller.py
-Propósito: Controlador del catálogo con integración al carrito y panel de administración.
+Propósito: Controlador del catálogo con integración al carrito, panel admin e historial.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.2.0 - Sprint 2 (Panel de administración)
+Versión: 1.3.0 - Sprint 3 (Historial de pedidos)
 """
 
 import sys
@@ -17,10 +17,11 @@ from src.views.catalogo_view import CatalogoView
 
 class CatalogoController:
     """
-    Controlador del catálogo. Maneja las interacciones del usuario y la comunicación con el carrito y panel admin.
+    Controlador del catálogo. Maneja las interacciones del usuario y la comunicación con el carrito, panel admin e historial.
     """
 
-    def __init__(self, vista: CatalogoView, modelo: ProductoModel, carrito_ctrl, admin_ctrl=None, es_admin=False):
+    def __init__(self, vista: CatalogoView, modelo: ProductoModel, carrito_ctrl,
+                admin_ctrl=None, es_admin=False, usuario_actual="", historial_ctrl=None):
         """
         Args:
             vista (CatalogoView): Instancia de la vista del catálogo.
@@ -28,12 +29,16 @@ class CatalogoController:
             carrito_ctrl: Instancia de CarritoController para agregar productos.
             admin_ctrl: Instancia de AdminProductosController (opcional, solo si es admin).
             es_admin (bool): Indica si el usuario actual es administrador.
+            usuario_actual (str): Nombre del usuario autenticado.
+            historial_ctrl: Instancia de HistorialController (opcional).
         """
         self.vista = vista
         self.modelo = modelo
         self.carrito_ctrl = carrito_ctrl
         self.admin_ctrl = admin_ctrl
         self.es_admin = es_admin
+        self.usuario_actual = usuario_actual
+        self.historial_ctrl = historial_ctrl
         self._configurar_senales()
         self._cargar_filtros()
         # Mostrar el botón de panel admin si corresponde
@@ -48,6 +53,9 @@ class CatalogoController:
         self.vista.btn_carrito.clicked.connect(self.abrir_carrito)
         if self.es_admin and self.admin_ctrl:
             self.vista.btn_admin.clicked.connect(self.abrir_admin)
+        # Botón de historial (si existe)
+        if hasattr(self.vista, 'btn_historial'):
+            self.vista.btn_historial.clicked.connect(self.abrir_historial)
 
     def _cargar_filtros(self):
         """Carga los combos de autor y categoría desde el modelo."""
@@ -96,8 +104,14 @@ class CatalogoController:
             self.admin_ctrl.vista.show()
             self.admin_ctrl.cargar_tabla()
 
+    def abrir_historial(self):
+        """Abre la ventana de historial de pedidos del usuario actual."""
+        if self.historial_ctrl:
+            self.historial_ctrl.vista.show()
+            self.historial_ctrl.cargar_historial(self.usuario_actual)
 
-# --- Prueba del controlador (simulación con mocks del carrito y admin) ---
+
+# --- Prueba del controlador (simulación con mocks del carrito, admin e historial) ---
 if __name__ == "__main__":
     import tempfile
     import json
@@ -131,7 +145,7 @@ if __name__ == "__main__":
 
     mock_carrito = MockCarritoCtrl()
 
-    # Mock del admin controller (para probar que se inicialice correctamente)
+    # Mock del admin controller
     class MockAdminCtrl:
         def __init__(self):
             self.abierto = False
@@ -142,13 +156,37 @@ if __name__ == "__main__":
 
     mock_admin = MockAdminCtrl()
 
-    # Act: instanciar controlador con admin
-    controlador = CatalogoController(vista, modelo, mock_carrito, admin_ctrl=mock_admin, es_admin=True)
-    app.processEvents()  # Procesar eventos para actualizar la UI
+    # Mock del historial controller (con vista simulada)
+    class MockVistaHistorial:
+        def show(self):
+            pass
+
+    class MockHistorialCtrl:
+        def __init__(self):
+            self.vista = MockVistaHistorial()  # Se agrega una vista falsa
+            self.abierto = False
+            self.usuario = ""
+        def cargar_historial(self, usuario):
+            self.abierto = True
+            self.usuario = usuario
+
+    mock_historial = MockHistorialCtrl()
+
+    # Act: instanciar controlador con admin e historial
+    controlador = CatalogoController(
+        vista, modelo, mock_carrito,
+        admin_ctrl=mock_admin, es_admin=True,
+        usuario_actual="test_user", historial_ctrl=mock_historial
+    )
+    app.processEvents()
 
     # Assert: el botón admin debe estar visible
     assert vista.btn_admin.isVisible(), "El botón Panel Admin debe estar visible para administradores"
-    print("✅ Prueba del controlador con panel admin: botón visible y controlador iniciado correctamente.")
+    # Verificar que se pueda abrir el historial
+    controlador.abrir_historial()
+    assert mock_historial.abierto, "El historial debió abrirse"
+    assert mock_historial.usuario == "test_user", "El usuario del historial no coincide"
+    print("✅ Prueba del controlador con panel admin e historial: todo correcto.")
 
     # Limpiar archivo temporal
     os.unlink(ruta_tmp)
