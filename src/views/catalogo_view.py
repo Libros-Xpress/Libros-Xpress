@@ -1,8 +1,8 @@
 """
 Módulo: catalogo_view.py
-Propósito: Interfaz gráfica del catálogo de productos con búsqueda avanzada, integración al carrito y acceso al panel de administración.
+Propósito: Interfaz gráfica del catálogo de productos con búsqueda avanzada, integración al carrito, acceso al panel de administración e historial de pedidos.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.2.0 - Sprint 2 (Panel de administración)
+Versión: 1.3.0 - Sprint 3 (Historial de pedidos)
 """
 
 from PySide6.QtWidgets import (
@@ -38,7 +38,7 @@ class CatalogoView(QMainWindow):
         self.setCentralWidget(central)
         layout_principal = QVBoxLayout(central)
 
-        # --- Barra de búsqueda, filtros, carrito y panel admin ---
+        # --- Barra de búsqueda, filtros, carrito, panel admin e historial ---
         barra_layout = QHBoxLayout()
         barra_layout.addWidget(QLabel("Buscar:"))
         self.txt_busqueda = QLineEdit()
@@ -65,6 +65,10 @@ class CatalogoView(QMainWindow):
         self.btn_admin = QPushButton("Panel Admin")
         self.btn_admin.setVisible(False)
         barra_layout.addWidget(self.btn_admin)
+
+        # Botón Historial (visible para todos los usuarios)
+        self.btn_historial = QPushButton("Historial")
+        barra_layout.addWidget(self.btn_historial)
 
         layout_principal.addLayout(barra_layout)
 
@@ -216,7 +220,7 @@ if __name__ == "__main__":
     ventana.mostrar_productos(prod_prueba, on_agregar=dummy_agregar)
     ventana.cargar_autores(["Autor A", "Autor B"])
     ventana.cargar_categorias(["Ficción", "No ficción"])
-    # Mostrar botón admin para prueba visual
+    # Mostrar botones admin e historial para prueba visual
     ventana.btn_admin.setVisible(True)
     ventana.show()
     sys.exit(app.exec())
