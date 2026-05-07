@@ -120,3 +120,16 @@ Se utilizó el patrón MVC (Modelo-Vista-Controlador) con interfaz PySide6 y per
       }
     ]
   }
+  ```
+- **`data/database.json`**: Almacena los usuarios registrados. Estructura:
+  ```json
+  {
+    "usuarios": [
+      {
+        "username": "admin",
+        "password": "123",
+        "rol": "Admin"
+      }
+    ]
+  }
+  ```
