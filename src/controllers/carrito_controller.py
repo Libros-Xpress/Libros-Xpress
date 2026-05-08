@@ -1,8 +1,8 @@
 """
 Módulo: carrito_controller.py
-Propósito: Controlador del carrito de compras, pago y aplicación de cupones para Libros-Xpress.
+Propósito: Controlador del carrito de compras, pago, cupones y sincronización de stock.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.3.0 - Sprint 3 (Cupones de descuento)
+Versión: 1.4.0 - Sprint 4 (Stock + Facturación)
 """
 
 import sys
@@ -14,20 +14,25 @@ if __name__ == "__main__":
 from PySide6.QtWidgets import QApplication
 from src.models.carrito_model import Carrito, PedidoModel
 from src.models.cupon_model import CuponModel
+from src.models.producto_model import ProductoModel
+from src.models.factura_model import FacturaModel
 from src.views.carrito_view import CarritoView
 
 class CarritoController:
     """
-    Controlador que maneja la lógica del carrito, el checkout y los cupones de descuento.
+    Controlador que maneja la lógica del carrito, el checkout, los cupones y la sincronización de stock.
     """
 
     def __init__(self, vista: CarritoView, carrito: Carrito, pedido_model: PedidoModel,
-                usuario_actual: str, cupon_model: CuponModel = None):
+                 usuario_actual: str, cupon_model: CuponModel = None,
+                 modelo_productos: ProductoModel = None, factura_model: FacturaModel = None):
         self.vista = vista
         self.carrito = carrito
         self.pedido_model = pedido_model
         self.usuario_actual = usuario_actual
         self.cupon_model = cupon_model if cupon_model else CuponModel()
+        self.modelo_productos = modelo_productos      # Para reducir stock
+        self.factura_model = factura_model if factura_model else FacturaModel()
         self.descuento_aplicado = 0.0
         self.cupon_aplicado = None
         self._configurar_senales()
@@ -89,7 +94,7 @@ class CarritoController:
 
         self.actualizar_vista()
         self.vista.mostrar_mensaje("Cupón aplicado",
-                                f"Descuento de ${self.descuento_aplicado:.2f} aplicado. Total: ${total_despues:.2f}")
+                                   f"Descuento de ${self.descuento_aplicado:.2f} aplicado. Total: ${total_despues:.2f}")
 
     def procesar_pago(self):
         titular, numero = self.vista.obtener_datos_pago()
@@ -101,10 +106,24 @@ class CarritoController:
             return
 
         try:
+            # Crear pedido
             pedido = self.pedido_model.crear_pedido(self.usuario_actual, self.carrito, descuento=self.descuento_aplicado)
-            total_final = pedido['total']  # Ya incluye el descuento, si el modelo lo aplica
+            total_final = pedido['total']
+
+            # Reducir stock (HU7) si está disponible el modelo de productos
+            if self.modelo_productos:
+                for item in self.carrito.items:
+                    producto = next((p for p in self.modelo_productos.productos if p.titulo == item.titulo), None)
+                    if producto:
+                        self.modelo_productos.reducir_stock(producto.id, item.cantidad)
+
+            # Generar factura (HU8)
+            ruta_factura = self.factura_model.generar_factura_pdf(pedido)
+
             self.vista.mostrar_mensaje("Compra exitosa",
-                                    f"Pedido #{pedido['id']} confirmado.\nTotal: ${total_final:.2f}")
+                                       f"Pedido #{pedido['id']} confirmado.\n"
+                                       f"Total: ${total_final:.2f}\n"
+                                       f"Factura guardada en:\n{ruta_factura}")
             self.carrito.vaciar()
             self.descuento_aplicado = 0.0
             self.cupon_aplicado = None
@@ -120,13 +139,17 @@ class CarritoController:
         self.actualizar_vista()
 
 
-# --- Prueba del controlador (simulación con cupón) ---
+# --- Prueba del controlador (simulación con cupón, stock y factura) ---
 if __name__ == "__main__":
     import tempfile, json
 
     # Arrange
     datos_pedidos = {"pedidos": []}
     datos_cupones = {"cupones": [{"codigo": "DESC10", "tipo": "porcentaje", "valor": 10, "activo": True}]}
+    datos_productos = {"productos": [
+        {"id": 1, "titulo": "Libro X", "autor": "A", "categoria": "C", "precio": 25.0, "portada": "", "stock": 10},
+        {"id": 2, "titulo": "Libro Y", "autor": "B", "categoria": "D", "precio": 15.0, "portada": "", "stock": 5}
+    ]}
 
     with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as tmp:
         json.dump(datos_pedidos, tmp)
@@ -136,10 +159,21 @@ if __name__ == "__main__":
         json.dump(datos_cupones, tmp)
         ruta_cupones = tmp.name
 
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as tmp:
+        json.dump(datos_productos, tmp)
+        ruta_productos = tmp.name
+
     app = QApplication(sys.argv)
     carrito = Carrito()
     pedido_model = PedidoModel(ruta_pedidos)
     cupon_model = CuponModel(ruta_cupones)
+    modelo_productos = ProductoModel(ruta_productos)
+    # Mock de factura
+    class MockFacturaModel:
+        def generar_factura_pdf(self, pedido):
+            return f"facturas/factura_{pedido['id']}.pdf"
+    factura_model = MockFacturaModel()
+
     vista = CarritoView()
     vista.show()
 
@@ -147,7 +181,8 @@ if __name__ == "__main__":
     vista.mostrar_error = lambda t, m: print(f"❌ {t}: {m}")
 
     usuario = "test_user"
-    controlador = CarritoController(vista, carrito, pedido_model, usuario, cupon_model)
+    controlador = CarritoController(vista, carrito, pedido_model, usuario, cupon_model,
+                                    modelo_productos=modelo_productos, factura_model=factura_model)
 
     # Act - agregar productos
     controlador.agregar_al_carrito("Libro X", 25.0)
@@ -167,6 +202,10 @@ if __name__ == "__main__":
     app.processEvents()
     assert vista.grupo_pago.isVisible(), "La sección de pago debe estar visible"
 
+    # Verificar stock antes del pago
+    stock_inicial_x = modelo_productos.productos[0].stock
+    stock_inicial_y = modelo_productos.productos[1].stock
+
     vista.txt_titular.setText("Juan Pérez")
     vista.txt_numero.setText("1234567890123456")
     vista.btn_confirmar_pago.clicked.emit()
@@ -175,13 +214,14 @@ if __name__ == "__main__":
     # Assert
     assert carrito.esta_vacio(), "El carrito debe quedar vacío tras el pago"
     assert len(pedido_model.pedidos) == 1, "Debe haberse creado un pedido"
-    # Verificar que el pedido guardó descuento (si se implementó en el modelo)
-    if 'descuento' in pedido_model.pedidos[0]:
-        print(f"Descuento guardado en pedido: {pedido_model.pedidos[0]['descuento']}")
+    # Verificar que el stock se redujo
+    assert modelo_productos.productos[0].stock == stock_inicial_x - 1, "El stock de Libro X debió reducirse en 1"
+    assert modelo_productos.productos[1].stock == stock_inicial_y - 1, "El stock de Libro Y debió reducirse en 1"
 
     os.unlink(ruta_pedidos)
     os.unlink(ruta_cupones)
-    print("✅ Prueba del controlador de carrito con cupón pasó correctamente.")
+    os.unlink(ruta_productos)
+    print("✅ Prueba del controlador de carrito con stock y factura pasó correctamente.")
     vista.close()
     app.quit()
     sys.exit()
