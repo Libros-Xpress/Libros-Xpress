@@ -1,8 +1,8 @@
 """
 Módulo: catalogo_view.py
-Propósito: Interfaz gráfica del catálogo de productos con búsqueda avanzada, integración al carrito, acceso al panel de administración e historial de pedidos.
+Propósito: Interfaz gráfica del catálogo de productos con búsqueda avanzada, carrito, panel admin, historial, venta física y visualización de stock.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.3.0 - Sprint 3 (Historial de pedidos)
+Versión: 1.4.0 - Sprint 4 (Sincronización de stock y facturación)
 """
 
 from PySide6.QtWidgets import (
@@ -38,7 +38,7 @@ class CatalogoView(QMainWindow):
         self.setCentralWidget(central)
         layout_principal = QVBoxLayout(central)
 
-        # --- Barra de búsqueda, filtros, carrito, panel admin e historial ---
+        # --- Barra de herramientas completa ---
         barra_layout = QHBoxLayout()
         barra_layout.addWidget(QLabel("Buscar:"))
         self.txt_busqueda = QLineEdit()
@@ -61,12 +61,15 @@ class CatalogoView(QMainWindow):
         self.btn_carrito = QPushButton("🛒 Carrito")
         barra_layout.addWidget(self.btn_carrito)
 
-        # Botón Panel Admin (visible solo si se activa desde el controlador)
         self.btn_admin = QPushButton("Panel Admin")
         self.btn_admin.setVisible(False)
         barra_layout.addWidget(self.btn_admin)
 
-        # Botón Historial (visible para todos los usuarios)
+        # Nuevo botón para venta física (solo admin, sincronización de stock)
+        self.btn_venta_fisica = QPushButton("Venta Física")
+        self.btn_venta_fisica.setVisible(False)
+        barra_layout.addWidget(self.btn_venta_fisica)
+
         self.btn_historial = QPushButton("Historial")
         barra_layout.addWidget(self.btn_historial)
 
@@ -102,7 +105,7 @@ class CatalogoView(QMainWindow):
 
     def mostrar_productos(self, productos, on_agregar=None):
         """
-        Muestra los productos en la cuadrícula de resultados.
+        Muestra los productos en la cuadrícula de resultados, ahora con stock visible.
 
         Args:
             productos (list[Producto]): Lista de productos a mostrar.
@@ -149,6 +152,12 @@ class CatalogoView(QMainWindow):
             lbl_precio.setAlignment(Qt.AlignmentFlag.AlignCenter)
             lbl_precio.setStyleSheet("color: #0078d4; font-weight: bold; font-size: 16px;")
             layout_producto.addWidget(lbl_precio)
+
+            # Stock disponible (nuevo Sprint 4)
+            lbl_stock = QLabel(f"Stock: {producto.stock}")
+            lbl_stock.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            lbl_stock.setStyleSheet("font-size: 12px; color: #555;")
+            layout_producto.addWidget(lbl_stock)
 
             # Botón Agregar al carrito
             btn_agregar = QPushButton("Agregar")
@@ -200,17 +209,18 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     ventana = CatalogoView()
 
-    # Simular carga de algunos productos de prueba
+    # Simular carga de algunos productos de prueba (ahora con stock)
     class ProdFalso:
-        def __init__(self, titulo, autor, precio, portada):
+        def __init__(self, titulo, autor, precio, portada, stock):
             self.titulo = titulo
             self.autor = autor
             self.precio = precio
             self.portada = portada
+            self.stock = stock
 
     prod_prueba = [
-        ProdFalso("Libro A", "Autor A", 9.99, ""),
-        ProdFalso("Libro B", "Autor B", 14.99, "")
+        ProdFalso("Libro A", "Autor A", 9.99, "", 5),
+        ProdFalso("Libro B", "Autor B", 14.99, "", 2)
     ]
 
     # Asignar un callback dummy para probar los botones "Agregar"
@@ -220,7 +230,8 @@ if __name__ == "__main__":
     ventana.mostrar_productos(prod_prueba, on_agregar=dummy_agregar)
     ventana.cargar_autores(["Autor A", "Autor B"])
     ventana.cargar_categorias(["Ficción", "No ficción"])
-    # Mostrar botones admin e historial para prueba visual
+    # Mostrar botones de admin y venta física para prueba visual
     ventana.btn_admin.setVisible(True)
+    ventana.btn_venta_fisica.setVisible(True)
     ventana.show()
     sys.exit(app.exec())
