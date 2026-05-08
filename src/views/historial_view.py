@@ -1,8 +1,8 @@
 """
 Módulo: historial_view.py
-Propósito: Interfaz gráfica para consultar el historial de pedidos.
+Propósito: Interfaz gráfica para consultar el historial de pedidos y descargar facturas.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.0.0
+Versión: 1.1.0 - Sprint 4 (Descarga de facturas)
 """
 
 from PySide6.QtWidgets import (
@@ -17,7 +17,7 @@ class HistorialView(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Historial de Pedidos - Libros-Xpress")
-        self.setMinimumSize(600, 400)
+        self.setMinimumSize(650, 450)
         self._configurar_ui()
         self._centrar_en_pantalla()
 
@@ -40,10 +40,18 @@ class HistorialView(QMainWindow):
         self.tabla.setEditTriggers(QTableWidget.NoEditTriggers)
         layout.addWidget(self.tabla)
 
-        # Botón cerrar
+        # Botones inferiores
+        botones_layout = QHBoxLayout()
+        self.btn_descargar_factura = QPushButton("Descargar Factura")
+        self.btn_descargar_factura.setStyleSheet("background-color: #0078d4; color: white;")
         btn_cerrar = QPushButton("Cerrar")
+        botones_layout.addWidget(self.btn_descargar_factura)
+        botones_layout.addStretch()
+        botones_layout.addWidget(btn_cerrar)
+        layout.addLayout(botones_layout)
+
+        # Conectar botón cerrar
         btn_cerrar.clicked.connect(self.close)
-        layout.addWidget(btn_cerrar, alignment=Qt.AlignmentFlag.AlignRight)
 
         # Estilos
         self.setStyleSheet("""
@@ -62,6 +70,18 @@ class HistorialView(QMainWindow):
             self.tabla.setItem(fila, 1, QTableWidgetItem(pedido.get('fecha', '')))
             self.tabla.setItem(fila, 2, QTableWidgetItem(f"${pedido.get('total', 0):.2f}"))
             self.tabla.setItem(fila, 3, QTableWidgetItem(pedido.get('estado', 'Pendiente')))
+
+    def obtener_pedido_seleccionado(self) -> dict:
+        """Retorna un diccionario con los datos del pedido seleccionado, o None si no hay selección."""
+        fila = self.tabla.currentRow()
+        if fila < 0:
+            return None
+        return {
+            "id": int(self.tabla.item(fila, 0).text()),
+            "fecha": self.tabla.item(fila, 1).text(),
+            "total": float(self.tabla.item(fila, 2).text().replace("$", "")),
+            "estado": self.tabla.item(fila, 3).text()
+        }
 
     def mostrar_mensaje(self, titulo: str, mensaje: str):
         QMessageBox.information(self, titulo, mensaje)
