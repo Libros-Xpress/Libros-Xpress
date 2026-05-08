@@ -1,8 +1,8 @@
 """
 Módulo: catalogo_controller.py
-Propósito: Controlador del catálogo con integración al carrito, panel admin e historial.
+Propósito: Controlador del catálogo con integración al carrito, panel admin, historial y venta física.
 Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.3.0 - Sprint 3 (Historial de pedidos)
+Versión: 1.4.0 - Sprint 4 (Sincronización de stock)
 """
 
 import sys
@@ -17,11 +17,12 @@ from src.views.catalogo_view import CatalogoView
 
 class CatalogoController:
     """
-    Controlador del catálogo. Maneja las interacciones del usuario y la comunicación con el carrito, panel admin e historial.
+    Controlador del catálogo. Maneja las interacciones del usuario y la comunicación con el carrito, panel admin, historial y venta física.
     """
 
     def __init__(self, vista: CatalogoView, modelo: ProductoModel, carrito_ctrl,
-                admin_ctrl=None, es_admin=False, usuario_actual="", historial_ctrl=None):
+                 admin_ctrl=None, es_admin=False, usuario_actual="", historial_ctrl=None,
+                 venta_fisica_ctrl=None):
         """
         Args:
             vista (CatalogoView): Instancia de la vista del catálogo.
@@ -31,6 +32,7 @@ class CatalogoController:
             es_admin (bool): Indica si el usuario actual es administrador.
             usuario_actual (str): Nombre del usuario autenticado.
             historial_ctrl: Instancia de HistorialController (opcional).
+            venta_fisica_ctrl: Instancia de VentaFisicaController (opcional, solo admin).
         """
         self.vista = vista
         self.modelo = modelo
@@ -39,11 +41,13 @@ class CatalogoController:
         self.es_admin = es_admin
         self.usuario_actual = usuario_actual
         self.historial_ctrl = historial_ctrl
+        self.venta_fisica_ctrl = venta_fisica_ctrl
         self._configurar_senales()
         self._cargar_filtros()
-        # Mostrar el botón de panel admin si corresponde
+        # Mostrar botones de administrador si corresponde
         if self.es_admin:
             self.vista.btn_admin.setVisible(True)
+            self.vista.btn_venta_fisica.setVisible(True)
         self.mostrar_todos()
 
     def _configurar_senales(self):
@@ -53,7 +57,8 @@ class CatalogoController:
         self.vista.btn_carrito.clicked.connect(self.abrir_carrito)
         if self.es_admin and self.admin_ctrl:
             self.vista.btn_admin.clicked.connect(self.abrir_admin)
-        # Botón de historial (si existe)
+        if self.es_admin and self.venta_fisica_ctrl:
+            self.vista.btn_venta_fisica.clicked.connect(self.abrir_venta_fisica)
         if hasattr(self.vista, 'btn_historial'):
             self.vista.btn_historial.clicked.connect(self.abrir_historial)
 
@@ -110,8 +115,14 @@ class CatalogoController:
             self.historial_ctrl.vista.show()
             self.historial_ctrl.cargar_historial(self.usuario_actual)
 
+    def abrir_venta_fisica(self):
+        """Abre la ventana de venta física para registrar una venta presencial."""
+        if self.venta_fisica_ctrl:
+            self.venta_fisica_ctrl.vista.show()
+            self.venta_fisica_ctrl.cargar_productos()
 
-# --- Prueba del controlador (simulación con mocks del carrito, admin e historial) ---
+
+# --- Prueba del controlador (simulación con mocks del carrito, admin, historial y venta física) ---
 if __name__ == "__main__":
     import tempfile
     import json
@@ -120,8 +131,8 @@ if __name__ == "__main__":
     # Arrange: datos de productos temporales
     datos = {
         "productos": [
-            {"id": 1, "titulo": "Python Avanzado", "autor": "Guido", "categoria": "Programación", "precio": 35.0, "portada": ""},
-            {"id": 2, "titulo": "PySide6 Guía", "autor": "Qt", "categoria": "Programación", "precio": 29.99, "portada": ""}
+            {"id": 1, "titulo": "Python Avanzado", "autor": "Guido", "categoria": "Programación", "precio": 35.0, "portada": "", "stock": 5},
+            {"id": 2, "titulo": "PySide6 Guía", "autor": "Qt", "categoria": "Programación", "precio": 29.99, "portada": "", "stock": 3}
         ]
     }
     with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as tmp:
@@ -130,10 +141,10 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     vista = CatalogoView()
-    vista.show()  # Necesario para que los widgets hijos reflejen visibilidad real
+    vista.show()
     modelo = ProductoModel(ruta_tmp)
 
-    # Mock del carrito controller
+    # Mocks necesarios
     class MockCarritoCtrl:
         def __init__(self):
             self.agregados = []
@@ -143,9 +154,6 @@ if __name__ == "__main__":
             pass
         vista = None
 
-    mock_carrito = MockCarritoCtrl()
-
-    # Mock del admin controller
     class MockAdminCtrl:
         def __init__(self):
             self.abierto = False
@@ -154,41 +162,51 @@ if __name__ == "__main__":
         def vista(self):
             pass
 
-    mock_admin = MockAdminCtrl()
-
-    # Mock del historial controller (con vista simulada)
-    class MockVistaHistorial:
+    class MockVista:
         def show(self):
             pass
 
     class MockHistorialCtrl:
         def __init__(self):
-            self.vista = MockVistaHistorial()  # Se agrega una vista falsa
+            self.vista = MockVista()
             self.abierto = False
             self.usuario = ""
         def cargar_historial(self, usuario):
             self.abierto = True
             self.usuario = usuario
 
-    mock_historial = MockHistorialCtrl()
+    class MockVentaFisicaCtrl:
+        def __init__(self):
+            self.vista = MockVista()
+            self.abierto = False
+        def cargar_productos(self):
+            self.abierto = True
 
-    # Act: instanciar controlador con admin e historial
+    mock_carrito = MockCarritoCtrl()
+    mock_admin = MockAdminCtrl()
+    mock_historial = MockHistorialCtrl()
+    mock_venta_fisica = MockVentaFisicaCtrl()
+
+    # Act: instanciar controlador con todos los módulos
     controlador = CatalogoController(
         vista, modelo, mock_carrito,
         admin_ctrl=mock_admin, es_admin=True,
-        usuario_actual="test_user", historial_ctrl=mock_historial
+        usuario_actual="test_user", historial_ctrl=mock_historial,
+        venta_fisica_ctrl=mock_venta_fisica
     )
     app.processEvents()
 
-    # Assert: el botón admin debe estar visible
-    assert vista.btn_admin.isVisible(), "El botón Panel Admin debe estar visible para administradores"
-    # Verificar que se pueda abrir el historial
+    # Assert: botones de admin visibles
+    assert vista.btn_admin.isVisible(), "El botón Panel Admin debe estar visible"
+    assert vista.btn_venta_fisica.isVisible(), "El botón Venta Física debe estar visible"
+    # Probar apertura de venta física
+    controlador.abrir_venta_fisica()
+    assert mock_venta_fisica.abierto, "La ventana de venta física debió abrirse"
+    # Probar historial
     controlador.abrir_historial()
     assert mock_historial.abierto, "El historial debió abrirse"
-    assert mock_historial.usuario == "test_user", "El usuario del historial no coincide"
-    print("✅ Prueba del controlador con panel admin e historial: todo correcto.")
+    print("✅ Prueba del controlador con venta física e historial: todo correcto.")
 
-    # Limpiar archivo temporal
     os.unlink(ruta_tmp)
     vista.close()
     app.quit()
