@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module src.views.admin_productos_view</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="src.html" class="white">src</a>.<a href="src.views.html" class="white">views</a>.admin_productos_view</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cpc%20casa%5Clibros-xpress%5Csrc%5Cviews%5Cadmin_productos_view.py">c:\users\pc casa\libros-xpress\src\views\admin_productos_view.py</a></td></tr></table>
+    <p><span class="code">Módulo:&nbsp;admin_productos_view.py<br>
+Propósito:&nbsp;Interfaz&nbsp;gráfica&nbsp;del&nbsp;panel&nbsp;de&nbsp;administración&nbsp;de&nbsp;productos&nbsp;(CRUD)&nbsp;para&nbsp;Libros-Xpress.<br>
+Autor:&nbsp;[Robert&nbsp;Cerón&nbsp;-&nbsp;David&nbsp;Solís&nbsp;-&nbsp;Juan&nbsp;Castro]<br>
+Versión:&nbsp;1.0.0</span></p>
+<p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="PySide6.QtWidgets.html#QDialog">PySide6.QtWidgets.QDialog</a>(<a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a>)
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="src.views.admin_productos_view.html#ProductoDialog">ProductoDialog</a>
+</dt></dl>
+</dd>
+<dt class="heading-text"><a href="PySide6.QtWidgets.html#QMainWindow">PySide6.QtWidgets.QMainWindow</a>(<a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a>)
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="src.views.admin_productos_view.html#AdminProductosView">AdminProductosView</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="AdminProductosView">class <strong>AdminProductosView</strong></a>(<a href="PySide6.QtWidgets.html#QMainWindow">PySide6.QtWidgets.QMainWindow</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Ventana&nbsp;del&nbsp;panel&nbsp;de&nbsp;administración&nbsp;de&nbsp;productos.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="src.views.admin_productos_view.html#AdminProductosView">AdminProductosView</a></dd>
+<dd><a href="PySide6.QtWidgets.html#QMainWindow">PySide6.QtWidgets.QMainWindow</a></dd>
+<dd><a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a></dd>
+<dd><a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a></dd>
+<dd><a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a></dd>
+<dd>Shiboken.Object</dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="AdminProductosView-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="AdminProductosView-cargar_productos"><strong>cargar_productos</strong></a>(self, productos: list)</dt><dd><span class="code">Llena&nbsp;la&nbsp;tabla&nbsp;con&nbsp;los&nbsp;productos.</span></dd></dl>
+
+<dl><dt><a name="AdminProductosView-cerrar"><strong>cerrar</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mostrar_error"><strong>mostrar_error</strong></a>(self, titulo: str, mensaje: str)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mostrar_mensaje"><strong>mostrar_mensaje</strong></a>(self, titulo: str, mensaje: str)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-obtener_producto_seleccionado"><strong>obtener_producto_seleccionado</strong></a>(self) -&gt; dict</dt><dd><span class="code">Retorna&nbsp;un&nbsp;diccionario&nbsp;con&nbsp;los&nbsp;datos&nbsp;de&nbsp;la&nbsp;fila&nbsp;seleccionada,&nbsp;o&nbsp;None.</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>staticMetaObject</strong> = PySide6.QtCore.QMetaObject("AdminProductosView" inherits "QMainWindow":
+)</dl>
+
+<hr>
+Methods inherited from <a href="PySide6.QtWidgets.html#QMainWindow">PySide6.QtWidgets.QMainWindow</a>:<br>
+<dl><dt><a name="AdminProductosView-__delattr__"><strong>__delattr__</strong></a>(self, name, /)</dt><dd><span class="code">Implement&nbsp;delattr(self,&nbsp;name).</span></dd></dl>
+
+<dl><dt><a name="AdminProductosView-__setattr__"><strong>__setattr__</strong></a>(self, name, value, /)</dt><dd><span class="code">Implement&nbsp;setattr(self,&nbsp;name,&nbsp;value).</span></dd></dl>
+
+<dl><dt><a name="AdminProductosView-addDockWidget"><strong>addDockWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-addToolBar"><strong>addToolBar</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-addToolBarBreak"><strong>addToolBarBreak</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-centralWidget"><strong>centralWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-contextMenuEvent"><strong>contextMenuEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-corner"><strong>corner</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-createPopupMenu"><strong>createPopupMenu</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-dockOptions"><strong>dockOptions</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-dockWidgetArea"><strong>dockWidgetArea</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-documentMode"><strong>documentMode</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-event"><strong>event</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-iconSize"><strong>iconSize</strong></a>(...)</dt></dl>
+
+<strong>iconSizeChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="AdminProductosView-insertToolBar"><strong>insertToolBar</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-insertToolBarBreak"><strong>insertToolBarBreak</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isAnimated"><strong>isAnimated</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isDockNestingEnabled"><strong>isDockNestingEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isSeparator"><strong>isSeparator</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-menuBar"><strong>menuBar</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-menuWidget"><strong>menuWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-removeDockWidget"><strong>removeDockWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-removeToolBar"><strong>removeToolBar</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-removeToolBarBreak"><strong>removeToolBarBreak</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-resizeDocks"><strong>resizeDocks</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-restoreDockWidget"><strong>restoreDockWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-restoreState"><strong>restoreState</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-saveState"><strong>saveState</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setAnimated"><strong>setAnimated</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setCentralWidget"><strong>setCentralWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setCorner"><strong>setCorner</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setDockNestingEnabled"><strong>setDockNestingEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setDockOptions"><strong>setDockOptions</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setDocumentMode"><strong>setDocumentMode</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setIconSize"><strong>setIconSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMenuBar"><strong>setMenuBar</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMenuWidget"><strong>setMenuWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setStatusBar"><strong>setStatusBar</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setTabPosition"><strong>setTabPosition</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setTabShape"><strong>setTabShape</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setToolButtonStyle"><strong>setToolButtonStyle</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setUnifiedTitleAndToolBarOnMac"><strong>setUnifiedTitleAndToolBarOnMac</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-splitDockWidget"><strong>splitDockWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-statusBar"><strong>statusBar</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-tabPosition"><strong>tabPosition</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-tabShape"><strong>tabShape</strong></a>(...)</dt></dl>
+
+<strong>tabifiedDockWidgetActivated</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="AdminProductosView-tabifiedDockWidgets"><strong>tabifiedDockWidgets</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-tabifyDockWidget"><strong>tabifyDockWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-takeCentralWidget"><strong>takeCentralWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-toolBarArea"><strong>toolBarArea</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-toolBarBreak"><strong>toolBarBreak</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-toolButtonStyle"><strong>toolButtonStyle</strong></a>(...)</dt></dl>
+
+<strong>toolButtonStyleChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="AdminProductosView-unifiedTitleAndToolBarOnMac"><strong>unifiedTitleAndToolBarOnMac</strong></a>(...)</dt></dl>
+
+<hr>
+Static methods inherited from <a href="PySide6.QtWidgets.html#QMainWindow">PySide6.QtWidgets.QMainWindow</a>:<br>
+<dl><dt><a name="AdminProductosView-__new__"><strong>__new__</strong></a>(*args, **kwargs)<span class="grey"><span class="heading-text"> class method of <a href="PySide6.QtWidgets.html#QMainWindow">PySide6.QtWidgets.QMainWindow</a></span></span></dt><dd><span class="code">Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;object.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="PySide6.QtWidgets.html#QMainWindow">PySide6.QtWidgets.QMainWindow</a>:<br>
+<dl><dt><strong>DockOption</strong> = &lt;flag 'DockOption'&gt;</dl>
+
+<hr>
+Methods inherited from <a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a>:<br>
+<dl><dt><a name="AdminProductosView-__repr__"><strong>__repr__</strong></a>(self, /)</dt><dd><span class="code">Return&nbsp;repr(self).</span></dd></dl>
+
+<dl><dt><a name="AdminProductosView-acceptDrops"><strong>acceptDrops</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-accessibleDescription"><strong>accessibleDescription</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-accessibleIdentifier"><strong>accessibleIdentifier</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-accessibleName"><strong>accessibleName</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-actionEvent"><strong>actionEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-actions"><strong>actions</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-activateWindow"><strong>activateWindow</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-addAction"><strong>addAction</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-addActions"><strong>addActions</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-adjustSize"><strong>adjustSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-autoFillBackground"><strong>autoFillBackground</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-backgroundRole"><strong>backgroundRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-backingStore"><strong>backingStore</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-baseSize"><strong>baseSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-changeEvent"><strong>changeEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-childAt"><strong>childAt</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-childrenRect"><strong>childrenRect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-childrenRegion"><strong>childrenRegion</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-clearFocus"><strong>clearFocus</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-clearMask"><strong>clearMask</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-close"><strong>close</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-closeEvent"><strong>closeEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-contentsMargins"><strong>contentsMargins</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-contentsRect"><strong>contentsRect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-contextMenuPolicy"><strong>contextMenuPolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-create"><strong>create</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-createWinId"><strong>createWinId</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-cursor"><strong>cursor</strong></a>(...)</dt></dl>
+
+<strong>customContextMenuRequested</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="AdminProductosView-destroy"><strong>destroy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-devType"><strong>devType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-dragEnterEvent"><strong>dragEnterEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-dragLeaveEvent"><strong>dragLeaveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-dragMoveEvent"><strong>dragMoveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-dropEvent"><strong>dropEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-effectiveWinId"><strong>effectiveWinId</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-ensurePolished"><strong>ensurePolished</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-enterEvent"><strong>enterEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-focusInEvent"><strong>focusInEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-focusNextChild"><strong>focusNextChild</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-focusNextPrevChild"><strong>focusNextPrevChild</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-focusOutEvent"><strong>focusOutEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-focusPolicy"><strong>focusPolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-focusPreviousChild"><strong>focusPreviousChild</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-focusProxy"><strong>focusProxy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-focusWidget"><strong>focusWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-font"><strong>font</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-fontInfo"><strong>fontInfo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-fontMetrics"><strong>fontMetrics</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-foregroundRole"><strong>foregroundRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-frameGeometry"><strong>frameGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-frameSize"><strong>frameSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-geometry"><strong>geometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-grab"><strong>grab</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-grabGesture"><strong>grabGesture</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-grabKeyboard"><strong>grabKeyboard</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-grabMouse"><strong>grabMouse</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-grabShortcut"><strong>grabShortcut</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-graphicsEffect"><strong>graphicsEffect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-graphicsProxyWidget"><strong>graphicsProxyWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-hasFocus"><strong>hasFocus</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-hasHeightForWidth"><strong>hasHeightForWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-hasMouseTracking"><strong>hasMouseTracking</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-hasTabletTracking"><strong>hasTabletTracking</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-height"><strong>height</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-heightForWidth"><strong>heightForWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-hide"><strong>hide</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-hideEvent"><strong>hideEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-initPainter"><strong>initPainter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-inputMethodEvent"><strong>inputMethodEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-inputMethodHints"><strong>inputMethodHints</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-inputMethodQuery"><strong>inputMethodQuery</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-insertAction"><strong>insertAction</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-insertActions"><strong>insertActions</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-internalWinId"><strong>internalWinId</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isActiveWindow"><strong>isActiveWindow</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isAncestorOf"><strong>isAncestorOf</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isEnabled"><strong>isEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isEnabledTo"><strong>isEnabledTo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isFullScreen"><strong>isFullScreen</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isHidden"><strong>isHidden</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isLeftToRight"><strong>isLeftToRight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isMaximized"><strong>isMaximized</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isMinimized"><strong>isMinimized</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isModal"><strong>isModal</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isRightToLeft"><strong>isRightToLeft</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isTopLevel"><strong>isTopLevel</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isVisible"><strong>isVisible</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isVisibleTo"><strong>isVisibleTo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isWindow"><strong>isWindow</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isWindowModified"><strong>isWindowModified</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-keyPressEvent"><strong>keyPressEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-keyReleaseEvent"><strong>keyReleaseEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-layout"><strong>layout</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-layoutDirection"><strong>layoutDirection</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-leaveEvent"><strong>leaveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-locale"><strong>locale</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-lower"><strong>lower</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mapFrom"><strong>mapFrom</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mapFromGlobal"><strong>mapFromGlobal</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mapFromParent"><strong>mapFromParent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mapTo"><strong>mapTo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mapToGlobal"><strong>mapToGlobal</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mapToParent"><strong>mapToParent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mask"><strong>mask</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-maximumHeight"><strong>maximumHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-maximumSize"><strong>maximumSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-maximumWidth"><strong>maximumWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-metric"><strong>metric</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-minimumHeight"><strong>minimumHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-minimumSize"><strong>minimumSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-minimumSizeHint"><strong>minimumSizeHint</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-minimumWidth"><strong>minimumWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mouseDoubleClickEvent"><strong>mouseDoubleClickEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mouseMoveEvent"><strong>mouseMoveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mousePressEvent"><strong>mousePressEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mouseReleaseEvent"><strong>mouseReleaseEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-move"><strong>move</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-moveEvent"><strong>moveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-nativeEvent"><strong>nativeEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-nativeParentWidget"><strong>nativeParentWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-nextInFocusChain"><strong>nextInFocusChain</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-normalGeometry"><strong>normalGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-overrideWindowFlags"><strong>overrideWindowFlags</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-overrideWindowState"><strong>overrideWindowState</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-paintEngine"><strong>paintEngine</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-paintEvent"><strong>paintEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-palette"><strong>palette</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-parentWidget"><strong>parentWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-pos"><strong>pos</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-previousInFocusChain"><strong>previousInFocusChain</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-raise_"><strong>raise_</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-rect"><strong>rect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-redirected"><strong>redirected</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-releaseKeyboard"><strong>releaseKeyboard</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-releaseMouse"><strong>releaseMouse</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-releaseShortcut"><strong>releaseShortcut</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-removeAction"><strong>removeAction</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-render"><strong>render</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-repaint"><strong>repaint</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-resize"><strong>resize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-resizeEvent"><strong>resizeEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-restoreGeometry"><strong>restoreGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-saveGeometry"><strong>saveGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-screen"><strong>screen</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-scroll"><strong>scroll</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setAcceptDrops"><strong>setAcceptDrops</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setAccessibleDescription"><strong>setAccessibleDescription</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setAccessibleIdentifier"><strong>setAccessibleIdentifier</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setAccessibleName"><strong>setAccessibleName</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setAttribute"><strong>setAttribute</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setAutoFillBackground"><strong>setAutoFillBackground</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setBackgroundRole"><strong>setBackgroundRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setBaseSize"><strong>setBaseSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setContentsMargins"><strong>setContentsMargins</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setContextMenuPolicy"><strong>setContextMenuPolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setCursor"><strong>setCursor</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setDisabled"><strong>setDisabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setEnabled"><strong>setEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setFixedHeight"><strong>setFixedHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setFixedSize"><strong>setFixedSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setFixedWidth"><strong>setFixedWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setFocus"><strong>setFocus</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setFocusPolicy"><strong>setFocusPolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setFocusProxy"><strong>setFocusProxy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setFont"><strong>setFont</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setForegroundRole"><strong>setForegroundRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setGeometry"><strong>setGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setGraphicsEffect"><strong>setGraphicsEffect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setHidden"><strong>setHidden</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setInputMethodHints"><strong>setInputMethodHints</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setLayout"><strong>setLayout</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setLayoutDirection"><strong>setLayoutDirection</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setLocale"><strong>setLocale</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMask"><strong>setMask</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMaximumHeight"><strong>setMaximumHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMaximumSize"><strong>setMaximumSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMaximumWidth"><strong>setMaximumWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMinimumHeight"><strong>setMinimumHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMinimumSize"><strong>setMinimumSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMinimumWidth"><strong>setMinimumWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setMouseTracking"><strong>setMouseTracking</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setPalette"><strong>setPalette</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setParent"><strong>setParent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setScreen"><strong>setScreen</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setShortcutAutoRepeat"><strong>setShortcutAutoRepeat</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setShortcutEnabled"><strong>setShortcutEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setSizeIncrement"><strong>setSizeIncrement</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setSizePolicy"><strong>setSizePolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setStatusTip"><strong>setStatusTip</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setStyle"><strong>setStyle</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setStyleSheet"><strong>setStyleSheet</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setTabletTracking"><strong>setTabletTracking</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setToolTip"><strong>setToolTip</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setToolTipDuration"><strong>setToolTipDuration</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setUpdatesEnabled"><strong>setUpdatesEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setVisible"><strong>setVisible</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWhatsThis"><strong>setWhatsThis</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowFilePath"><strong>setWindowFilePath</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowFlag"><strong>setWindowFlag</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowFlags"><strong>setWindowFlags</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowIcon"><strong>setWindowIcon</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowIconText"><strong>setWindowIconText</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowModality"><strong>setWindowModality</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowModified"><strong>setWindowModified</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowOpacity"><strong>setWindowOpacity</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowRole"><strong>setWindowRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowState"><strong>setWindowState</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setWindowTitle"><strong>setWindowTitle</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-sharedPainter"><strong>sharedPainter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-show"><strong>show</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-showEvent"><strong>showEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-showFullScreen"><strong>showFullScreen</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-showMaximized"><strong>showMaximized</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-showMinimized"><strong>showMinimized</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-showNormal"><strong>showNormal</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-size"><strong>size</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-sizeHint"><strong>sizeHint</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-sizeIncrement"><strong>sizeIncrement</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-sizePolicy"><strong>sizePolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-stackUnder"><strong>stackUnder</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-statusTip"><strong>statusTip</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-style"><strong>style</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-styleSheet"><strong>styleSheet</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-tabletEvent"><strong>tabletEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-testAttribute"><strong>testAttribute</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-toolTip"><strong>toolTip</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-toolTipDuration"><strong>toolTipDuration</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-topLevelWidget"><strong>topLevelWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-underMouse"><strong>underMouse</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-ungrabGesture"><strong>ungrabGesture</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-unsetCursor"><strong>unsetCursor</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-unsetLayoutDirection"><strong>unsetLayoutDirection</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-unsetLocale"><strong>unsetLocale</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-update"><strong>update</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-updateGeometry"><strong>updateGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-updateMicroFocus"><strong>updateMicroFocus</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-updatesEnabled"><strong>updatesEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-visibleRegion"><strong>visibleRegion</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-whatsThis"><strong>whatsThis</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-wheelEvent"><strong>wheelEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-width"><strong>width</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-winId"><strong>winId</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-window"><strong>window</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-windowFilePath"><strong>windowFilePath</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-windowFlags"><strong>windowFlags</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-windowHandle"><strong>windowHandle</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-windowIcon"><strong>windowIcon</strong></a>(...)</dt></dl>
+
+<strong>windowIconChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="AdminProductosView-windowIconText"><strong>windowIconText</strong></a>(...)</dt></dl>
+
+<strong>windowIconTextChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="AdminProductosView-windowModality"><strong>windowModality</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-windowOpacity"><strong>windowOpacity</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-windowRole"><strong>windowRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-windowState"><strong>windowState</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-windowTitle"><strong>windowTitle</strong></a>(...)</dt></dl>
+
+<strong>windowTitleChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="AdminProductosView-windowType"><strong>windowType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-x"><strong>x</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-y"><strong>y</strong></a>(...)</dt></dl>
+
+<hr>
+Static methods inherited from <a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a>:<br>
+<dl><dt><a name="AdminProductosView-createWindowContainer"><strong>createWindowContainer</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-find"><strong>find</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-keyboardGrabber"><strong>keyboardGrabber</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-mouseGrabber"><strong>mouseGrabber</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setTabOrder"><strong>setTabOrder</strong></a>(...)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a>:<br>
+<dl><dt><strong>RenderFlag</strong> = &lt;flag 'RenderFlag'&gt;</dl>
+
+<hr>
+Methods inherited from <a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a>:<br>
+<dl><dt><a name="AdminProductosView-__getattribute__"><strong>__getattribute__</strong></a>(self, name, /)</dt><dd><span class="code">Return&nbsp;getattr(self,&nbsp;name).</span></dd></dl>
+
+<dl><dt><a name="AdminProductosView-blockSignals"><strong>blockSignals</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-childEvent"><strong>childEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-children"><strong>children</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-connectNotify"><strong>connectNotify</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-customEvent"><strong>customEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-deleteLater"><strong>deleteLater</strong></a>(...)</dt></dl>
+
+<strong>destroyed</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="AdminProductosView-disconnectNotify"><strong>disconnectNotify</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-dumpObjectInfo"><strong>dumpObjectInfo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-dumpObjectTree"><strong>dumpObjectTree</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-dynamicPropertyNames"><strong>dynamicPropertyNames</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-emit"><strong>emit</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-eventFilter"><strong>eventFilter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-findChild"><strong>findChild</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-findChildren"><strong>findChildren</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-inherits"><strong>inherits</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-installEventFilter"><strong>installEventFilter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isQuickItemType"><strong>isQuickItemType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isSignalConnected"><strong>isSignalConnected</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isWidgetType"><strong>isWidgetType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-isWindowType"><strong>isWindowType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-killTimer"><strong>killTimer</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-metaObject"><strong>metaObject</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-moveToThread"><strong>moveToThread</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-objectName"><strong>objectName</strong></a>(...)</dt></dl>
+
+<strong>objectNameChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="AdminProductosView-parent"><strong>parent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-property"><strong>property</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-receivers"><strong>receivers</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-removeEventFilter"><strong>removeEventFilter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-sender"><strong>sender</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-senderSignalIndex"><strong>senderSignalIndex</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setObjectName"><strong>setObjectName</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-setProperty"><strong>setProperty</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-signalsBlocked"><strong>signalsBlocked</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-startTimer"><strong>startTimer</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-thread"><strong>thread</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-timerEvent"><strong>timerEvent</strong></a>(...)</dt></dl>
+
+<hr>
+Class methods inherited from <a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a>:<br>
+<dl><dt><a name="AdminProductosView-tr"><strong>tr</strong></a>(...)</dt></dl>
+
+<hr>
+Static methods inherited from <a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a>:<br>
+<dl><dt><a name="AdminProductosView-connect"><strong>connect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-disconnect"><strong>disconnect</strong></a>(...)</dt></dl>
+
+<hr>
+Methods inherited from <a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a>:<br>
+<dl><dt><a name="AdminProductosView-colorCount"><strong>colorCount</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-depth"><strong>depth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-devicePixelRatio"><strong>devicePixelRatio</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-devicePixelRatioF"><strong>devicePixelRatioF</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-heightMM"><strong>heightMM</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-logicalDpiX"><strong>logicalDpiX</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-logicalDpiY"><strong>logicalDpiY</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-paintingActive"><strong>paintingActive</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-physicalDpiX"><strong>physicalDpiX</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-physicalDpiY"><strong>physicalDpiY</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-widthMM"><strong>widthMM</strong></a>(...)</dt></dl>
+
+<hr>
+Static methods inherited from <a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a>:<br>
+<dl><dt><a name="AdminProductosView-devicePixelRatioFScale"><strong>devicePixelRatioFScale</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AdminProductosView-encodeMetricF"><strong>encodeMetricF</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a>:<br>
+<dl><dt><strong>painters</strong></dt>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a>:<br>
+<dl><dt><strong>PaintDeviceMetric</strong> = &lt;enum 'PaintDeviceMetric'&gt;</dl>
+
+<hr>
+Data descriptors inherited from Shiboken.Object:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ProductoDialog">class <strong>ProductoDialog</strong></a>(<a href="PySide6.QtWidgets.html#QDialog">PySide6.QtWidgets.QDialog</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#ProductoDialog">ProductoDialog</a>(datos:&nbsp;dict&nbsp;=&nbsp;None,&nbsp;parent=None)<br>
+&nbsp;<br>
+Diálogo&nbsp;para&nbsp;agregar&nbsp;o&nbsp;editar&nbsp;un&nbsp;producto.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="src.views.admin_productos_view.html#ProductoDialog">ProductoDialog</a></dd>
+<dd><a href="PySide6.QtWidgets.html#QDialog">PySide6.QtWidgets.QDialog</a></dd>
+<dd><a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a></dd>
+<dd><a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a></dd>
+<dd><a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a></dd>
+<dd>Shiboken.Object</dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ProductoDialog-__init__"><strong>__init__</strong></a>(self, datos: dict = None, parent=None)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="ProductoDialog-obtener_datos"><strong>obtener_datos</strong></a>(self) -&gt; dict</dt><dd><span class="code">Retorna&nbsp;un&nbsp;diccionario&nbsp;con&nbsp;los&nbsp;datos&nbsp;ingresados.</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>staticMetaObject</strong> = PySide6.QtCore.QMetaObject("ProductoDialog" inherits "QDialog":
+)</dl>
+
+<hr>
+Methods inherited from <a href="PySide6.QtWidgets.html#QDialog">PySide6.QtWidgets.QDialog</a>:<br>
+<dl><dt><a name="ProductoDialog-__delattr__"><strong>__delattr__</strong></a>(self, name, /)</dt><dd><span class="code">Implement&nbsp;delattr(self,&nbsp;name).</span></dd></dl>
+
+<dl><dt><a name="ProductoDialog-__setattr__"><strong>__setattr__</strong></a>(self, name, value, /)</dt><dd><span class="code">Implement&nbsp;setattr(self,&nbsp;name,&nbsp;value).</span></dd></dl>
+
+<dl><dt><a name="ProductoDialog-accept"><strong>accept</strong></a>(...)</dt></dl>
+
+<strong>accepted</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="ProductoDialog-adjustPosition"><strong>adjustPosition</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-closeEvent"><strong>closeEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-contextMenuEvent"><strong>contextMenuEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-done"><strong>done</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-eventFilter"><strong>eventFilter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-exec"><strong>exec</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-exec_"><strong>exec_</strong></a>(...)</dt></dl>
+
+<strong>finished</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="ProductoDialog-isSizeGripEnabled"><strong>isSizeGripEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-keyPressEvent"><strong>keyPressEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-minimumSizeHint"><strong>minimumSizeHint</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-open"><strong>open</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-reject"><strong>reject</strong></a>(...)</dt></dl>
+
+<strong>rejected</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="ProductoDialog-resizeEvent"><strong>resizeEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-result"><strong>result</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setModal"><strong>setModal</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setResult"><strong>setResult</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setSizeGripEnabled"><strong>setSizeGripEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setVisible"><strong>setVisible</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-showEvent"><strong>showEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-sizeHint"><strong>sizeHint</strong></a>(...)</dt></dl>
+
+<hr>
+Static methods inherited from <a href="PySide6.QtWidgets.html#QDialog">PySide6.QtWidgets.QDialog</a>:<br>
+<dl><dt><a name="ProductoDialog-__new__"><strong>__new__</strong></a>(*args, **kwargs)<span class="grey"><span class="heading-text"> class method of <a href="PySide6.QtWidgets.html#QDialog">PySide6.QtWidgets.QDialog</a></span></span></dt><dd><span class="code">Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;object.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="PySide6.QtWidgets.html#QDialog">PySide6.QtWidgets.QDialog</a>:<br>
+<dl><dt><strong>DialogCode</strong> = &lt;enum 'DialogCode'&gt;</dl>
+
+<hr>
+Methods inherited from <a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a>:<br>
+<dl><dt><a name="ProductoDialog-__repr__"><strong>__repr__</strong></a>(self, /)</dt><dd><span class="code">Return&nbsp;repr(self).</span></dd></dl>
+
+<dl><dt><a name="ProductoDialog-acceptDrops"><strong>acceptDrops</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-accessibleDescription"><strong>accessibleDescription</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-accessibleIdentifier"><strong>accessibleIdentifier</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-accessibleName"><strong>accessibleName</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-actionEvent"><strong>actionEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-actions"><strong>actions</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-activateWindow"><strong>activateWindow</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-addAction"><strong>addAction</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-addActions"><strong>addActions</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-adjustSize"><strong>adjustSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-autoFillBackground"><strong>autoFillBackground</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-backgroundRole"><strong>backgroundRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-backingStore"><strong>backingStore</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-baseSize"><strong>baseSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-changeEvent"><strong>changeEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-childAt"><strong>childAt</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-childrenRect"><strong>childrenRect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-childrenRegion"><strong>childrenRegion</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-clearFocus"><strong>clearFocus</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-clearMask"><strong>clearMask</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-close"><strong>close</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-contentsMargins"><strong>contentsMargins</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-contentsRect"><strong>contentsRect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-contextMenuPolicy"><strong>contextMenuPolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-create"><strong>create</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-createWinId"><strong>createWinId</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-cursor"><strong>cursor</strong></a>(...)</dt></dl>
+
+<strong>customContextMenuRequested</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="ProductoDialog-destroy"><strong>destroy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-devType"><strong>devType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-dragEnterEvent"><strong>dragEnterEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-dragLeaveEvent"><strong>dragLeaveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-dragMoveEvent"><strong>dragMoveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-dropEvent"><strong>dropEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-effectiveWinId"><strong>effectiveWinId</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-ensurePolished"><strong>ensurePolished</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-enterEvent"><strong>enterEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-event"><strong>event</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-focusInEvent"><strong>focusInEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-focusNextChild"><strong>focusNextChild</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-focusNextPrevChild"><strong>focusNextPrevChild</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-focusOutEvent"><strong>focusOutEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-focusPolicy"><strong>focusPolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-focusPreviousChild"><strong>focusPreviousChild</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-focusProxy"><strong>focusProxy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-focusWidget"><strong>focusWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-font"><strong>font</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-fontInfo"><strong>fontInfo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-fontMetrics"><strong>fontMetrics</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-foregroundRole"><strong>foregroundRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-frameGeometry"><strong>frameGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-frameSize"><strong>frameSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-geometry"><strong>geometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-grab"><strong>grab</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-grabGesture"><strong>grabGesture</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-grabKeyboard"><strong>grabKeyboard</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-grabMouse"><strong>grabMouse</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-grabShortcut"><strong>grabShortcut</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-graphicsEffect"><strong>graphicsEffect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-graphicsProxyWidget"><strong>graphicsProxyWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-hasFocus"><strong>hasFocus</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-hasHeightForWidth"><strong>hasHeightForWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-hasMouseTracking"><strong>hasMouseTracking</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-hasTabletTracking"><strong>hasTabletTracking</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-height"><strong>height</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-heightForWidth"><strong>heightForWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-hide"><strong>hide</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-hideEvent"><strong>hideEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-initPainter"><strong>initPainter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-inputMethodEvent"><strong>inputMethodEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-inputMethodHints"><strong>inputMethodHints</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-inputMethodQuery"><strong>inputMethodQuery</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-insertAction"><strong>insertAction</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-insertActions"><strong>insertActions</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-internalWinId"><strong>internalWinId</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isActiveWindow"><strong>isActiveWindow</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isAncestorOf"><strong>isAncestorOf</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isEnabled"><strong>isEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isEnabledTo"><strong>isEnabledTo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isFullScreen"><strong>isFullScreen</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isHidden"><strong>isHidden</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isLeftToRight"><strong>isLeftToRight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isMaximized"><strong>isMaximized</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isMinimized"><strong>isMinimized</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isModal"><strong>isModal</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isRightToLeft"><strong>isRightToLeft</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isTopLevel"><strong>isTopLevel</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isVisible"><strong>isVisible</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isVisibleTo"><strong>isVisibleTo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isWindow"><strong>isWindow</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isWindowModified"><strong>isWindowModified</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-keyReleaseEvent"><strong>keyReleaseEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-layout"><strong>layout</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-layoutDirection"><strong>layoutDirection</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-leaveEvent"><strong>leaveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-locale"><strong>locale</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-lower"><strong>lower</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mapFrom"><strong>mapFrom</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mapFromGlobal"><strong>mapFromGlobal</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mapFromParent"><strong>mapFromParent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mapTo"><strong>mapTo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mapToGlobal"><strong>mapToGlobal</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mapToParent"><strong>mapToParent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mask"><strong>mask</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-maximumHeight"><strong>maximumHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-maximumSize"><strong>maximumSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-maximumWidth"><strong>maximumWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-metric"><strong>metric</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-minimumHeight"><strong>minimumHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-minimumSize"><strong>minimumSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-minimumWidth"><strong>minimumWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mouseDoubleClickEvent"><strong>mouseDoubleClickEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mouseMoveEvent"><strong>mouseMoveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mousePressEvent"><strong>mousePressEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mouseReleaseEvent"><strong>mouseReleaseEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-move"><strong>move</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-moveEvent"><strong>moveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-nativeEvent"><strong>nativeEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-nativeParentWidget"><strong>nativeParentWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-nextInFocusChain"><strong>nextInFocusChain</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-normalGeometry"><strong>normalGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-overrideWindowFlags"><strong>overrideWindowFlags</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-overrideWindowState"><strong>overrideWindowState</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-paintEngine"><strong>paintEngine</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-paintEvent"><strong>paintEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-palette"><strong>palette</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-parentWidget"><strong>parentWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-pos"><strong>pos</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-previousInFocusChain"><strong>previousInFocusChain</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-raise_"><strong>raise_</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-rect"><strong>rect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-redirected"><strong>redirected</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-releaseKeyboard"><strong>releaseKeyboard</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-releaseMouse"><strong>releaseMouse</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-releaseShortcut"><strong>releaseShortcut</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-removeAction"><strong>removeAction</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-render"><strong>render</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-repaint"><strong>repaint</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-resize"><strong>resize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-restoreGeometry"><strong>restoreGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-saveGeometry"><strong>saveGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-screen"><strong>screen</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-scroll"><strong>scroll</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setAcceptDrops"><strong>setAcceptDrops</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setAccessibleDescription"><strong>setAccessibleDescription</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setAccessibleIdentifier"><strong>setAccessibleIdentifier</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setAccessibleName"><strong>setAccessibleName</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setAttribute"><strong>setAttribute</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setAutoFillBackground"><strong>setAutoFillBackground</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setBackgroundRole"><strong>setBackgroundRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setBaseSize"><strong>setBaseSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setContentsMargins"><strong>setContentsMargins</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setContextMenuPolicy"><strong>setContextMenuPolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setCursor"><strong>setCursor</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setDisabled"><strong>setDisabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setEnabled"><strong>setEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setFixedHeight"><strong>setFixedHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setFixedSize"><strong>setFixedSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setFixedWidth"><strong>setFixedWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setFocus"><strong>setFocus</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setFocusPolicy"><strong>setFocusPolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setFocusProxy"><strong>setFocusProxy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setFont"><strong>setFont</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setForegroundRole"><strong>setForegroundRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setGeometry"><strong>setGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setGraphicsEffect"><strong>setGraphicsEffect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setHidden"><strong>setHidden</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setInputMethodHints"><strong>setInputMethodHints</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setLayout"><strong>setLayout</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setLayoutDirection"><strong>setLayoutDirection</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setLocale"><strong>setLocale</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setMask"><strong>setMask</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setMaximumHeight"><strong>setMaximumHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setMaximumSize"><strong>setMaximumSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setMaximumWidth"><strong>setMaximumWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setMinimumHeight"><strong>setMinimumHeight</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setMinimumSize"><strong>setMinimumSize</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setMinimumWidth"><strong>setMinimumWidth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setMouseTracking"><strong>setMouseTracking</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setPalette"><strong>setPalette</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setParent"><strong>setParent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setScreen"><strong>setScreen</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setShortcutAutoRepeat"><strong>setShortcutAutoRepeat</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setShortcutEnabled"><strong>setShortcutEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setSizeIncrement"><strong>setSizeIncrement</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setSizePolicy"><strong>setSizePolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setStatusTip"><strong>setStatusTip</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setStyle"><strong>setStyle</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setStyleSheet"><strong>setStyleSheet</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setTabletTracking"><strong>setTabletTracking</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setToolTip"><strong>setToolTip</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setToolTipDuration"><strong>setToolTipDuration</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setUpdatesEnabled"><strong>setUpdatesEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWhatsThis"><strong>setWhatsThis</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowFilePath"><strong>setWindowFilePath</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowFlag"><strong>setWindowFlag</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowFlags"><strong>setWindowFlags</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowIcon"><strong>setWindowIcon</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowIconText"><strong>setWindowIconText</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowModality"><strong>setWindowModality</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowModified"><strong>setWindowModified</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowOpacity"><strong>setWindowOpacity</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowRole"><strong>setWindowRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowState"><strong>setWindowState</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setWindowTitle"><strong>setWindowTitle</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-sharedPainter"><strong>sharedPainter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-show"><strong>show</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-showFullScreen"><strong>showFullScreen</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-showMaximized"><strong>showMaximized</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-showMinimized"><strong>showMinimized</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-showNormal"><strong>showNormal</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-size"><strong>size</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-sizeIncrement"><strong>sizeIncrement</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-sizePolicy"><strong>sizePolicy</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-stackUnder"><strong>stackUnder</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-statusTip"><strong>statusTip</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-style"><strong>style</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-styleSheet"><strong>styleSheet</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-tabletEvent"><strong>tabletEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-testAttribute"><strong>testAttribute</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-toolTip"><strong>toolTip</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-toolTipDuration"><strong>toolTipDuration</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-topLevelWidget"><strong>topLevelWidget</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-underMouse"><strong>underMouse</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-ungrabGesture"><strong>ungrabGesture</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-unsetCursor"><strong>unsetCursor</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-unsetLayoutDirection"><strong>unsetLayoutDirection</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-unsetLocale"><strong>unsetLocale</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-update"><strong>update</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-updateGeometry"><strong>updateGeometry</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-updateMicroFocus"><strong>updateMicroFocus</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-updatesEnabled"><strong>updatesEnabled</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-visibleRegion"><strong>visibleRegion</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-whatsThis"><strong>whatsThis</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-wheelEvent"><strong>wheelEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-width"><strong>width</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-winId"><strong>winId</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-window"><strong>window</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-windowFilePath"><strong>windowFilePath</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-windowFlags"><strong>windowFlags</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-windowHandle"><strong>windowHandle</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-windowIcon"><strong>windowIcon</strong></a>(...)</dt></dl>
+
+<strong>windowIconChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="ProductoDialog-windowIconText"><strong>windowIconText</strong></a>(...)</dt></dl>
+
+<strong>windowIconTextChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="ProductoDialog-windowModality"><strong>windowModality</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-windowOpacity"><strong>windowOpacity</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-windowRole"><strong>windowRole</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-windowState"><strong>windowState</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-windowTitle"><strong>windowTitle</strong></a>(...)</dt></dl>
+
+<strong>windowTitleChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="ProductoDialog-windowType"><strong>windowType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-x"><strong>x</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-y"><strong>y</strong></a>(...)</dt></dl>
+
+<hr>
+Static methods inherited from <a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a>:<br>
+<dl><dt><a name="ProductoDialog-createWindowContainer"><strong>createWindowContainer</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-find"><strong>find</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-keyboardGrabber"><strong>keyboardGrabber</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-mouseGrabber"><strong>mouseGrabber</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setTabOrder"><strong>setTabOrder</strong></a>(...)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="PySide6.QtWidgets.html#QWidget">PySide6.QtWidgets.QWidget</a>:<br>
+<dl><dt><strong>RenderFlag</strong> = &lt;flag 'RenderFlag'&gt;</dl>
+
+<hr>
+Methods inherited from <a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a>:<br>
+<dl><dt><a name="ProductoDialog-__getattribute__"><strong>__getattribute__</strong></a>(self, name, /)</dt><dd><span class="code">Return&nbsp;getattr(self,&nbsp;name).</span></dd></dl>
+
+<dl><dt><a name="ProductoDialog-blockSignals"><strong>blockSignals</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-childEvent"><strong>childEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-children"><strong>children</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-connectNotify"><strong>connectNotify</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-customEvent"><strong>customEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-deleteLater"><strong>deleteLater</strong></a>(...)</dt></dl>
+
+<strong>destroyed</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="ProductoDialog-disconnectNotify"><strong>disconnectNotify</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-dumpObjectInfo"><strong>dumpObjectInfo</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-dumpObjectTree"><strong>dumpObjectTree</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-dynamicPropertyNames"><strong>dynamicPropertyNames</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-emit"><strong>emit</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-findChild"><strong>findChild</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-findChildren"><strong>findChildren</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-inherits"><strong>inherits</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-installEventFilter"><strong>installEventFilter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isQuickItemType"><strong>isQuickItemType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isSignalConnected"><strong>isSignalConnected</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isWidgetType"><strong>isWidgetType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-isWindowType"><strong>isWindowType</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-killTimer"><strong>killTimer</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-metaObject"><strong>metaObject</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-moveToThread"><strong>moveToThread</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-objectName"><strong>objectName</strong></a>(...)</dt></dl>
+
+<strong>objectNameChanged</strong> = &lt;PySide6.QtCore.Signal object&gt;
+<dl><dt><a name="ProductoDialog-parent"><strong>parent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-property"><strong>property</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-receivers"><strong>receivers</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-removeEventFilter"><strong>removeEventFilter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-sender"><strong>sender</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-senderSignalIndex"><strong>senderSignalIndex</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setObjectName"><strong>setObjectName</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-setProperty"><strong>setProperty</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-signalsBlocked"><strong>signalsBlocked</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-startTimer"><strong>startTimer</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-thread"><strong>thread</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-timerEvent"><strong>timerEvent</strong></a>(...)</dt></dl>
+
+<hr>
+Class methods inherited from <a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a>:<br>
+<dl><dt><a name="ProductoDialog-tr"><strong>tr</strong></a>(...)</dt></dl>
+
+<hr>
+Static methods inherited from <a href="PySide6.QtCore.html#QObject">PySide6.QtCore.QObject</a>:<br>
+<dl><dt><a name="ProductoDialog-connect"><strong>connect</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-disconnect"><strong>disconnect</strong></a>(...)</dt></dl>
+
+<hr>
+Methods inherited from <a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a>:<br>
+<dl><dt><a name="ProductoDialog-colorCount"><strong>colorCount</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-depth"><strong>depth</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-devicePixelRatio"><strong>devicePixelRatio</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-devicePixelRatioF"><strong>devicePixelRatioF</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-heightMM"><strong>heightMM</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-logicalDpiX"><strong>logicalDpiX</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-logicalDpiY"><strong>logicalDpiY</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-paintingActive"><strong>paintingActive</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-physicalDpiX"><strong>physicalDpiX</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-physicalDpiY"><strong>physicalDpiY</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-widthMM"><strong>widthMM</strong></a>(...)</dt></dl>
+
+<hr>
+Static methods inherited from <a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a>:<br>
+<dl><dt><a name="ProductoDialog-devicePixelRatioFScale"><strong>devicePixelRatioFScale</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProductoDialog-encodeMetricF"><strong>encodeMetricF</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a>:<br>
+<dl><dt><strong>painters</strong></dt>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="PySide6.QtGui.html#QPaintDevice">PySide6.QtGui.QPaintDevice</a>:<br>
+<dl><dt><strong>PaintDeviceMetric</strong> = &lt;enum 'PaintDeviceMetric'&gt;</dl>
+
+<hr>
+Data descriptors inherited from Shiboken.Object:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

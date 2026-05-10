@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module src.models.usuario_model</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="src.html" class="white">src</a>.<a href="src.models.html" class="white">models</a>.usuario_model</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cpc%20casa%5Clibros-xpress%5Csrc%5Cmodels%5Cusuario_model.py">c:\users\pc casa\libros-xpress\src\models\usuario_model.py</a></td></tr></table>
+    <p><span class="code">Módulo:&nbsp;usuario_model.py<br>
+Propósito:&nbsp;Gestión&nbsp;de&nbsp;usuarios&nbsp;(carga,&nbsp;registro,&nbsp;autenticación)&nbsp;usando&nbsp;JSON.<br>
+Autor:&nbsp;[Robert&nbsp;Cerón&nbsp;-&nbsp;David&nbsp;Solís&nbsp;-&nbsp;Juan&nbsp;Castro]<br>
+Versión:&nbsp;1.0.0</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="json.html">json</a><br>
+</td><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="src.models.usuario_model.html#Usuario">Usuario</a>
+</dt><dt class="heading-text"><a href="src.models.usuario_model.html#UsuarioModel">UsuarioModel</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Usuario">class <strong>Usuario</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Usuario">Usuario</a>(username:&nbsp;str,&nbsp;password:&nbsp;str,&nbsp;rol:&nbsp;str)<br>
+&nbsp;<br>
+Representa&nbsp;un&nbsp;usuario&nbsp;del&nbsp;sistema.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Usuario-__init__"><strong>__init__</strong></a>(self, username: str, password: str, rol: str)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="Usuario-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><span class="code">Return&nbsp;repr(self).</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="UsuarioModel">class <strong>UsuarioModel</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#UsuarioModel">UsuarioModel</a>(ruta_json:&nbsp;str&nbsp;=&nbsp;'data/database.json')<br>
+&nbsp;<br>
+Modelo&nbsp;de&nbsp;usuarios.&nbsp;Carga&nbsp;y&nbsp;guarda&nbsp;en&nbsp;data/database.json.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="UsuarioModel-__init__"><strong>__init__</strong></a>(self, ruta_json: str = 'data/database.json')</dt><dd><span class="code">Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ruta_json&nbsp;(str):&nbsp;Ruta&nbsp;al&nbsp;archivo&nbsp;JSON&nbsp;con&nbsp;los&nbsp;usuarios.<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FileNotFoundError:&nbsp;Si&nbsp;el&nbsp;archivo&nbsp;no&nbsp;existe.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;json.JSONDecodeError:&nbsp;Si&nbsp;el&nbsp;JSON&nbsp;está&nbsp;mal&nbsp;formado.</span></dd></dl>
+
+<dl><dt><a name="UsuarioModel-autenticar"><strong>autenticar</strong></a>(self, username: str, password: str) -&gt; Optional[src.models.usuario_model.Usuario]</dt><dd><span class="code">Verifica&nbsp;credenciales&nbsp;y&nbsp;devuelve&nbsp;el&nbsp;usuario&nbsp;si&nbsp;son&nbsp;correctas.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;username&nbsp;(str):&nbsp;Nombre&nbsp;de&nbsp;usuario.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;password&nbsp;(str):&nbsp;Contraseña.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Optional[<a href="#Usuario">Usuario</a>]:&nbsp;<a href="#Usuario">Usuario</a>&nbsp;autenticado&nbsp;o&nbsp;None&nbsp;si&nbsp;falla.</span></dd></dl>
+
+<dl><dt><a name="UsuarioModel-cargar_usuarios"><strong>cargar_usuarios</strong></a>(self)</dt><dd><span class="code">Carga&nbsp;los&nbsp;usuarios&nbsp;desde&nbsp;el&nbsp;archivo&nbsp;JSON.&nbsp;Si&nbsp;hay&nbsp;errores,&nbsp;deja&nbsp;la&nbsp;lista&nbsp;vacía.</span></dd></dl>
+
+<dl><dt><a name="UsuarioModel-existe_usuario"><strong>existe_usuario</strong></a>(self, username: str) -&gt; bool</dt><dd><span class="code">Verifica&nbsp;si&nbsp;un&nbsp;nombre&nbsp;de&nbsp;usuario&nbsp;ya&nbsp;está&nbsp;registrado.</span></dd></dl>
+
+<dl><dt><a name="UsuarioModel-guardar_usuarios"><strong>guardar_usuarios</strong></a>(self)</dt><dd><span class="code">Guarda&nbsp;la&nbsp;lista&nbsp;de&nbsp;usuarios&nbsp;en&nbsp;el&nbsp;archivo&nbsp;JSON.<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IOError:&nbsp;Si&nbsp;no&nbsp;se&nbsp;puede&nbsp;escribir&nbsp;el&nbsp;archivo.</span></dd></dl>
+
+<dl><dt><a name="UsuarioModel-registrar"><strong>registrar</strong></a>(self, username: str, password: str, rol: str = 'Cliente') -&gt; bool</dt><dd><span class="code">Registra&nbsp;un&nbsp;nuevo&nbsp;usuario&nbsp;si&nbsp;el&nbsp;nombre&nbsp;no&nbsp;existe.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;username&nbsp;(str):&nbsp;Nombre&nbsp;de&nbsp;usuario&nbsp;único.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;password&nbsp;(str):&nbsp;Contraseña.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rol&nbsp;(str):&nbsp;Rol&nbsp;del&nbsp;usuario&nbsp;(por&nbsp;defecto&nbsp;"Cliente").<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;si&nbsp;se&nbsp;registró&nbsp;correctamente,&nbsp;False&nbsp;si&nbsp;el&nbsp;usuario&nbsp;ya&nbsp;existe.<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IOError:&nbsp;Si&nbsp;falla&nbsp;al&nbsp;guardar&nbsp;el&nbsp;JSON.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>Dict</strong> = typing.Dict<br>
+<strong>List</strong> = typing.List<br>
+<strong>Optional</strong> = typing.Optional</td></tr></table>
+</body></html>
