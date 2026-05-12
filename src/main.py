@@ -1,8 +1,8 @@
 """
 Módulo: main.py
 Propósito: Punto de entrada de Libros/Xpress con Splash Screen y autenticación modal.
-Versión: 2.0.0 – Fase 2 (Login / Registro)
-Autor: David Solís
+Versión: 2.0.0 - Fase 2 (Login / Registro)
+Autor: Robert Cerón - David Solís - Juan Castro
 """
 
 import sys, os

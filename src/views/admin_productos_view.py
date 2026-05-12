@@ -1,8 +1,8 @@
 """
 Módulo: admin_productos_view.py
 Propósito: Panel de administración de productos (CRUD) con diseño Digital‑Shift y carga de portadas.
-Autor: David Solís
-Versión: 2.0.0 – Fase 5 (Panel Admin)
+Autor: Robert Cerón - David Solís - Robert Cerón
+Versión: 2.0.0 - Fase 5 (Panel Admin)
 """
 
 import os, shutil

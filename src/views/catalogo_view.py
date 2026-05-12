@@ -2,7 +2,7 @@
 Módulo: catalogo_view.py
 Propósito: Catálogo visual con búsqueda, carrito, panel admin, historial y diseño Digital‑Shift.
 Autor: Robert Cerón - David Solís - Juan Castro
-Versión: 2.0.0 – Fase 6 (Diferenciación Admin/Cliente)
+Versión: 2.0.0 - Fase 6 (Diferenciación Admin/Cliente)
 """
 
 from PySide6.QtWidgets import (
@@ -217,10 +217,10 @@ class CatalogoView(QMainWindow):
         self.lbl_usuario.setText(f"Conectado: {nombre} ({rol})")
         if rol == "Administrador":
             self.lbl_usuario.setStyleSheet("background-color: #8B5E3C; color: white; "
-                                           "padding: 4px; font-weight: bold;")
+                                        "padding: 4px; font-weight: bold;")
         else:
             self.lbl_usuario.setStyleSheet("background-color: #D4A574; color: #3E2723; "
-                                           "padding: 4px;")
+                                        "padding: 4px;")
 
     def mostrar_mensaje(self, t, m): QMessageBox.information(self, t, m)
     def mostrar_error(self, t, m): QMessageBox.critical(self, t, m)
