@@ -47,7 +47,7 @@ class AuthController:
             self.usuario_actual = autenticado.username
             self.rol_actual = autenticado.rol
             self.vista.mostrar_mensaje("Acceso correcto", f"Bienvenido {autenticado.username} ({autenticado.rol})")
-            self.vista.cerrar_ventana()
+            self.vista.accept()   # <-- Cierra el diálogo con resultado Aceptado
         else:
             self.vista.mostrar_error("Error de autenticación", "Usuario o contraseña incorrectos.")
             self.vista.limpiar_login()
@@ -79,7 +79,6 @@ class AuthController:
         email, ok = QInputDialog.getText(self.vista, "Recuperar contraseña",
                                          "Introduce el correo electrónico registrado:")
         if ok and email:
-            # Simulación de envío de enlace
             self.vista.mostrar_mensaje("Recuperación",
                                        f"Se ha enviado un enlace de recuperación a {email}.\n"
                                        "Revisa tu bandeja de entrada para restablecer tu contraseña.")
