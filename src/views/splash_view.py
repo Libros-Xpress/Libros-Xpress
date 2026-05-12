@@ -5,8 +5,14 @@ Autor: David Solís
 Versión: 2.0.0
 """
 
-from PySide6.QtWidgets import QSplashScreen
-from PySide6.QtCore import Qt, QTimer, QRect
+import sys
+import os
+# Ajuste de path para permitir ejecución directa del script
+if __name__ == "__main__":
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+from PySide6.QtWidgets import QSplashScreen, QApplication
+from PySide6.QtCore import Qt, QTimer, QRect, QEventLoop
 from PySide6.QtGui import QPixmap, QPainter, QColor, QFont, QPen, QLinearGradient
 
 class SplashView(QSplashScreen):
@@ -32,28 +38,28 @@ class SplashView(QSplashScreen):
         painter.drawRoundedRect(20, 20, 560, 360, 20, 20)
         painter.drawRoundedRect(28, 28, 544, 344, 15, 15)
 
-        # ---- Distribución manual de textos (evita amontonamiento) ----
+        # ---- Distribución manual de textos ----
 
-        # 1. Nombre de la empresa (parte superior)
+        # 1. Nombre de la empresa
         painter.setFont(QFont("Segoe UI", 22, QFont.Bold))
         painter.setPen(QColor("#8B5E3C"))
         painter.drawText(QRect(0, 60, 600, 40), Qt.AlignHCenter, "DIGITAL-SHIFT")
 
-        # 2. Nombre del software (centro, grande)
+        # 2. Nombre del software
         painter.setFont(QFont("Segoe UI", 38, QFont.Bold))
         painter.setPen(QColor("#6B3A2A"))
         painter.drawText(QRect(0, 140, 600, 60), Qt.AlignHCenter, "LIBROS/XPRESS")
 
-        # 3. Eslogan (justo debajo del nombre)
+        # 3. Eslogan
         painter.setFont(QFont("Segoe UI", 13, QFont.Light))
         painter.setPen(QColor("#8B5E3C"))
         painter.drawText(QRect(0, 210, 600, 30), Qt.AlignHCenter, "From physical to digital")
 
-        # 4. Línea separadora sutil
+        # 4. Línea separadora
         painter.setPen(QPen(QColor("#D4A574"), 1))
         painter.drawLine(150, 260, 450, 260)
 
-        # 5. Versión y autores (parte inferior, bien espaciados)
+        # 5. Versión y autores
         painter.setFont(QFont("Segoe UI", 10))
         painter.setPen(QColor("#5D4037"))
         painter.drawText(QRect(0, 280, 600, 25), Qt.AlignHCenter, "v2.0.0 - Digital Shift 2026")
@@ -67,6 +73,15 @@ class SplashView(QSplashScreen):
         self.show()
         QTimer.singleShot(duracion_ms, self.close)
 
+    def esperar_cierre(self):
+        """Espera activamente a que el splash se cierre, procesando eventos de la UI."""
+        loop = QEventLoop()
+        self.destroyed.connect(loop.quit)
+        QTimer.singleShot(5000, loop.quit)  # Seguridad: máximo 5 segundos
+        self.show()
+        QTimer.singleShot(3000, self.close)
+        loop.exec()
+
 
 # --- Prueba visual de la vista ---
 if __name__ == "__main__":
@@ -75,5 +90,5 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     splash = SplashView()
-    splash.mostrar(5000)
+    splash.mostrar(3000)
     app.exec()

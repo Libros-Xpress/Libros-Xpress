@@ -1,15 +1,15 @@
 """
 Módulo: main.py
-Propósito: Punto de entrada de Libros-Xpress. Orquesta autenticación, catálogo, carrito, panel admin, cupones, historial, venta física y facturación.
-Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.5.0 - Sprint 4 (Sincronización de stock y facturación)
+Propósito: Punto de entrada de Libros/Xpress con Splash Screen.
+Versión: 2.0.0 - Fase 1 (Splash Screen)
+Autor: David Solís
 """
 
-import sys
-import os
+import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from PySide6.QtWidgets import QApplication
+from src.views.splash_view import SplashView
 from src.models.usuario_model import UsuarioModel
 from src.views.login_view import LoginView
 from src.controllers.auth_controller import AuthController
@@ -30,7 +30,11 @@ from src.controllers.venta_fisica_controller import VentaFisicaController
 
 def main():
     app = QApplication(sys.argv)
-    app.setApplicationName("Libros-Xpress")
+    app.setApplicationName("Libros/Xpress")
+
+    # --- Splash Screen ---
+    splash = SplashView()
+    splash.esperar_cierre()      # Espera 3 segundos y se cierra solo
 
     # Autenticación
     modelo_usuarios = UsuarioModel("data/database.json")
@@ -43,32 +47,26 @@ def main():
         usuario_actual = getattr(auth_ctrl, 'usuario_actual', 'admin')
         rol = "Admin" if usuario_actual == "admin" else "Cliente"
 
-        # Modelos compartidos
         cupon_model = CuponModel("data/cupones.json")
         carrito = Carrito()
         pedido_model = PedidoModel("data/pedidos.json")
         modelo_productos = ProductoModel("data/productos.json")
         factura_model = FacturaModel("facturas")
 
-        # Carrito y pagos (con cupones, stock y facturación)
         vista_carrito = CarritoView()
         carrito_ctrl = CarritoController(
             vista_carrito, carrito, pedido_model, usuario_actual, cupon_model,
-            modelo_productos=modelo_productos,
-            factura_model=factura_model
+            modelo_productos=modelo_productos, factura_model=factura_model
         )
 
-        # Panel de administración (solo admin)
         admin_ctrl = None
         if rol == "Admin":
             vista_admin = AdminProductosView()
             admin_ctrl = AdminProductosController(vista_admin, modelo_productos)
 
-        # Historial de pedidos (con descarga de factura)
         vista_historial = HistorialView()
         historial_ctrl = HistorialController(vista_historial, pedido_model, factura_model)
 
-        # Venta física (solo admin)
         venta_fisica_ctrl = None
         if rol == "Admin":
             vista_venta_fisica = VentaFisicaView()
@@ -76,20 +74,14 @@ def main():
                 vista_venta_fisica, modelo_productos, pedido_model, usuario_actual
             )
 
-        # Catálogo (con integración completa)
         vista_catalogo = CatalogoView()
         catalogo_ctrl = CatalogoController(
-            vista_catalogo,
-            modelo_productos,
-            carrito_ctrl,
-            admin_ctrl=admin_ctrl,
-            es_admin=(rol == "Admin"),
-            usuario_actual=usuario_actual,
-            historial_ctrl=historial_ctrl,
+            vista_catalogo, modelo_productos, carrito_ctrl,
+            admin_ctrl=admin_ctrl, es_admin=(rol == "Admin"),
+            usuario_actual=usuario_actual, historial_ctrl=historial_ctrl,
             venta_fisica_ctrl=venta_fisica_ctrl
         )
 
-        # Refresh callbacks
         if admin_ctrl:
             admin_ctrl.refresh_callback = catalogo_ctrl.mostrar_todos
         if venta_fisica_ctrl:
