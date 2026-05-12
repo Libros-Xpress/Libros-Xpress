@@ -1,8 +1,8 @@
 """
 Módulo: catalogo_view.py
-Propósito: Interfaz gráfica del catálogo de productos con búsqueda avanzada, carrito, panel admin, historial, venta física y visualización de stock.
-Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.4.0 - Sprint 4 (Sincronización de stock y facturación)
+Propósito: Catálogo visual con búsqueda, carrito, panel admin, historial y diseño Digital‑Shift.
+Autor: David Solís
+Versión: 2.0.0 – Fase 3 (Catálogo)
 """
 
 from PySide6.QtWidgets import (
@@ -10,228 +10,245 @@ from PySide6.QtWidgets import (
     QLineEdit, QComboBox, QPushButton, QLabel, QScrollArea, QGridLayout, QMessageBox
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap, QPainter, QColor, QFont, QPen, QBrush
 
+# ── helpers visuales ──────────────────────────────────────────────
+def crear_portada_placeholder(titulo, ancho=160, alto=210):
+    """Genera un QPixmap decorativo con el título del libro centrado."""
+    pix = QPixmap(ancho, alto)
+    pix.fill(QColor("#F5E1C0"))                     # fondo marrón claro
+    painter = QPainter(pix)
+    painter.setRenderHint(QPainter.Antialiasing)
 
+    # Borde sutil
+    pen = QPen(QColor("#D4A574"), 2)
+    painter.setPen(pen)
+    painter.drawRoundedRect(2, 2, ancho-4, alto-4, 10, 10)
+
+    # Ícono de libro
+    font_icono = QFont("Segoe UI Emoji", 30)
+    painter.setFont(font_icono)
+    painter.setPen(QColor("#8B5E3C"))
+    painter.drawText(pix.rect(), Qt.AlignHCenter | Qt.AlignTop, "\n\n📖")
+
+    # Título del libro
+    font_titulo = QFont("Segoe UI", 11, QFont.Bold)
+    painter.setFont(font_titulo)
+    painter.setPen(QColor("#5D4037"))
+    painter.drawText(pix.rect().adjusted(8, 70, -8, -8),
+                     Qt.AlignHCenter | Qt.TextWordWrap, titulo)
+    painter.end()
+    return pix
+
+# ── clase principal ──────────────────────────────────────────────
 class CatalogoView(QMainWindow):
-    """
-    Ventana principal del catálogo de Libros-Xpress.
-    """
+    """Ventana principal del catálogo de Libros/Xpress."""
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Libros-Xpress - Catálogo")
-        self.setMinimumSize(800, 600)
+        self.setWindowTitle("Libros/Xpress – Catálogo")
+        self.setMinimumSize(900, 650)
         self._configurar_ui()
         self._centrar_en_pantalla()
 
     def _centrar_en_pantalla(self):
-        """Centra la ventana en la pantalla."""
         centro = self.screen().availableGeometry().center()
         frame = self.frameGeometry()
         frame.moveCenter(centro)
         self.move(frame.topLeft())
 
     def _configurar_ui(self):
-        """Construye y organiza los widgets de la interfaz."""
         central = QWidget()
         self.setCentralWidget(central)
         layout_principal = QVBoxLayout(central)
 
-        # --- Barra de herramientas completa ---
-        barra_layout = QHBoxLayout()
-        barra_layout.addWidget(QLabel("Buscar:"))
-        self.txt_busqueda = QLineEdit()
-        self.txt_busqueda.setPlaceholderText("Título del libro...")
-        barra_layout.addWidget(self.txt_busqueda)
+        # ── Barra superior (información de usuario) ──
+        self.lbl_usuario = QLabel()
+        self.lbl_usuario.setFont(QFont("Segoe UI", 10))
+        self.lbl_usuario.setStyleSheet("color: #6B3A2A; padding: 4px;")
+        layout_principal.addWidget(self.lbl_usuario)
 
-        barra_layout.addWidget(QLabel("Autor:"))
+        # ── Barra de herramientas ──
+        barra = QHBoxLayout()
+        barra.addWidget(QLabel("Buscar:"))
+        self.txt_busqueda = QLineEdit()
+        self.txt_busqueda.setPlaceholderText("Título del libro…")
+        barra.addWidget(self.txt_busqueda)
+
+        barra.addWidget(QLabel("Autor:"))
         self.cmb_autor = QComboBox()
         self.cmb_autor.addItem("Todos")
-        barra_layout.addWidget(self.cmb_autor)
+        barra.addWidget(self.cmb_autor)
 
-        barra_layout.addWidget(QLabel("Categoría:"))
+        barra.addWidget(QLabel("Categoría:"))
         self.cmb_categoria = QComboBox()
         self.cmb_categoria.addItem("Todas")
-        barra_layout.addWidget(self.cmb_categoria)
+        barra.addWidget(self.cmb_categoria)
 
         self.btn_buscar = QPushButton("Buscar")
-        barra_layout.addWidget(self.btn_buscar)
+        barra.addWidget(self.btn_buscar)
 
         self.btn_carrito = QPushButton("🛒 Carrito")
-        barra_layout.addWidget(self.btn_carrito)
+        barra.addWidget(self.btn_carrito)
 
         self.btn_admin = QPushButton("Panel Admin")
         self.btn_admin.setVisible(False)
-        barra_layout.addWidget(self.btn_admin)
+        barra.addWidget(self.btn_admin)
 
-        # Nuevo botón para venta física (solo admin, sincronización de stock)
         self.btn_venta_fisica = QPushButton("Venta Física")
         self.btn_venta_fisica.setVisible(False)
-        barra_layout.addWidget(self.btn_venta_fisica)
+        barra.addWidget(self.btn_venta_fisica)
 
         self.btn_historial = QPushButton("Historial")
-        barra_layout.addWidget(self.btn_historial)
+        barra.addWidget(self.btn_historial)
 
-        layout_principal.addLayout(barra_layout)
+        layout_principal.addLayout(barra)
 
-        # --- Área de resultados con scroll ---
+        # ── Área de resultados ──
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidgetResizable(True)
         self.scroll_widget = QWidget()
         self.scroll_layout = QGridLayout(self.scroll_widget)
+        self.scroll_layout.setAlignment(Qt.AlignTop | Qt.AlignHCenter)  # centrar contenido
+        self.scroll_layout.setHorizontalSpacing(20)
+        self.scroll_layout.setVerticalSpacing(20)
         self.scroll_area.setWidget(self.scroll_widget)
         layout_principal.addWidget(self.scroll_area)
 
-        # Estilos básicos
+        # ── Estilos ──
         self.setStyleSheet("""
-            QMainWindow { background-color: #f5f5f5; }
-            QLabel { font-size: 13px; }
+            QMainWindow { background-color: #FFF8F0; }
+            QLabel { font-size: 13px; color: #5D4037; }
             QPushButton {
-                background-color: #0078d4; color: white;
-                border: none; padding: 8px 16px; border-radius: 4px;
+                background-color: #8B5E3C; color: white;
+                border: none; padding: 8px 14px; border-radius: 6px;
+                font-size: 13px; font-weight: bold;
             }
-            QPushButton:hover { background-color: #005a9e; }
-            QLineEdit { padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
-            QComboBox { padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
+            QPushButton:hover { background-color: #6B3A2A; }
+            QLineEdit, QComboBox {
+                padding: 6px; border: 1px solid #D4A574; border-radius: 6px;
+                background-color: #FFFAF5; color: #3E2723; font-size: 13px;
+            }
+            QComboBox::drop-down { border: none; }
         """)
 
+    # ── limpieza ──
     def limpiar_resultados(self):
-        """Elimina todos los widgets del área de resultados."""
         while self.scroll_layout.count():
             item = self.scroll_layout.takeAt(0)
             if item.widget():
                 item.widget().deleteLater()
 
+    # ── mostrar productos ──
     def mostrar_productos(self, productos, on_agregar=None):
-        """
-        Muestra los productos en la cuadrícula de resultados, ahora con stock visible.
-
-        Args:
-            productos (list[Producto]): Lista de productos a mostrar.
-            on_agregar (callable, opcional): Función(titulo, precio) al hacer clic en 'Agregar'.
-        """
         self.limpiar_resultados()
         if not productos:
             lbl = QLabel("No se encontraron productos.")
-            lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            lbl.setAlignment(Qt.AlignCenter)
             self.scroll_layout.addWidget(lbl, 0, 0)
             return
 
         columnas = 3
-        for indice, producto in enumerate(productos):
-            fila = indice // columnas
-            columna = indice % columnas
+        for i, prod in enumerate(productos):
+            fila, col = i // columnas, i % columnas
 
-            # Contenedor por producto
-            contenedor = QWidget()
-            contenedor.setStyleSheet("background-color: white; border-radius: 8px; padding: 10px;")
-            layout_producto = QVBoxLayout(contenedor)
+            # Tarjeta compacta
+            tarjeta = QWidget()
+            tarjeta.setStyleSheet("""
+                QWidget { background-color: #FFFAF5; border-radius: 12px;
+                          padding: 10px; }
+            """)
+            tarjeta.setFixedWidth(230)          # ancho fijo
+            ly = QVBoxLayout(tarjeta)
+            ly.setSpacing(4)
 
-            # Imagen de portada
-            lbl_imagen = QLabel()
-            pixmap = QPixmap(producto.portada)
-            if pixmap.isNull():
-                pixmap = QPixmap(200, 250)
-                pixmap.fill(Qt.GlobalColor.gray)
+            # Portada (tamaño ajustado)
+            lbl_img = QLabel()
+            pix = QPixmap(prod.portada)
+            if pix.isNull():
+                pix = crear_portada_placeholder(prod.titulo, 160, 210)
             else:
-                pixmap = pixmap.scaled(200, 250, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-            lbl_imagen.setPixmap(pixmap)
-            lbl_imagen.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            layout_producto.addWidget(lbl_imagen)
+                pix = pix.scaled(160, 210, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            lbl_img.setPixmap(pix)
+            lbl_img.setAlignment(Qt.AlignCenter)
+            ly.addWidget(lbl_img)
 
             # Título
-            lbl_titulo = QLabel(producto.titulo)
-            lbl_titulo.setWordWrap(True)
-            lbl_titulo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            lbl_titulo.setStyleSheet("font-weight: bold; font-size: 14px;")
-            layout_producto.addWidget(lbl_titulo)
+            lbl_tit = QLabel(prod.titulo)
+            lbl_tit.setWordWrap(True)
+            lbl_tit.setAlignment(Qt.AlignCenter)
+            lbl_tit.setStyleSheet("font-weight: bold; font-size: 13px; color: #3E2723;")
+            ly.addWidget(lbl_tit)
 
             # Precio
-            lbl_precio = QLabel(f"${producto.precio:.2f}")
-            lbl_precio.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            lbl_precio.setStyleSheet("color: #0078d4; font-weight: bold; font-size: 16px;")
-            layout_producto.addWidget(lbl_precio)
+            lbl_precio = QLabel(f"${prod.precio:.2f}")
+            lbl_precio.setAlignment(Qt.AlignCenter)
+            lbl_precio.setStyleSheet("font-size: 15px; font-weight: bold; color: #8B5E3C;")
+            ly.addWidget(lbl_precio)
 
-            # Stock disponible (nuevo Sprint 4)
-            lbl_stock = QLabel(f"Stock: {producto.stock}")
-            lbl_stock.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            lbl_stock.setStyleSheet("font-size: 12px; color: #555;")
-            layout_producto.addWidget(lbl_stock)
+            # Stock
+            stock = getattr(prod, 'stock', 0)
+            color_stock = "#2E7D32" if stock > 0 else "#C0392B"
+            texto_stock = f"Stock: {stock}" if stock > 0 else "AGOTADO"
+            lbl_stock = QLabel(texto_stock)
+            lbl_stock.setAlignment(Qt.AlignCenter)
+            lbl_stock.setStyleSheet(f"font-size: 11px; color: {color_stock};")
+            ly.addWidget(lbl_stock)
 
-            # Botón Agregar al carrito
-            btn_agregar = QPushButton("Agregar")
-            btn_agregar.setStyleSheet("background-color: #28a745; color: white; padding: 5px; border-radius: 4px;")
+            # Botón Agregar
+            btn = QPushButton("Agregar al carrito")
+            btn.setStyleSheet("""
+                QPushButton { background-color: #A5D6A7; color: #1B5E20;
+                              font-weight: bold; border: none; padding: 6px;
+                              border-radius: 6px; font-size: 12px; }
+                QPushButton:hover { background-color: #81C784; }
+            """)
             if on_agregar:
-                btn_agregar.clicked.connect(lambda checked, t=producto.titulo, p=producto.precio: on_agregar(t, p))
-            layout_producto.addWidget(btn_agregar)
+                btn.clicked.connect(lambda _, t=prod.titulo, p=prod.precio: on_agregar(t, p))
+            ly.addWidget(btn)
 
-            self.scroll_layout.addWidget(contenedor, fila, columna)
+            self.scroll_layout.addWidget(tarjeta, fila, col)
 
-    def obtener_texto_busqueda(self) -> str:
-        """Retorna el texto ingresado en la barra de búsqueda."""
-        return self.txt_busqueda.text().strip()
+    # ── accesos ──
+    def obtener_texto_busqueda(self):       return self.txt_busqueda.text().strip()
+    def obtener_autor_seleccionado(self):  return self.cmb_autor.currentText()
+    def obtener_categoria_seleccionada(self): return self.cmb_categoria.currentText()
 
-    def obtener_autor_seleccionado(self) -> str:
-        """Retorna el autor seleccionado, o 'Todos'."""
-        return self.cmb_autor.currentText()
-
-    def obtener_categoria_seleccionada(self) -> str:
-        """Retorna la categoría seleccionada, o 'Todas'."""
-        return self.cmb_categoria.currentText()
-
-    def cargar_autores(self, autores: list):
-        """Carga la lista de autores en el combo."""
+    def cargar_autores(self, lista):
         self.cmb_autor.clear()
         self.cmb_autor.addItem("Todos")
-        self.cmb_autor.addItems(autores)
+        self.cmb_autor.addItems(lista)
 
-    def cargar_categorias(self, categorias: list):
-        """Carga la lista de categorías en el combo."""
+    def cargar_categorias(self, lista):
         self.cmb_categoria.clear()
         self.cmb_categoria.addItem("Todas")
-        self.cmb_categoria.addItems(categorias)
+        self.cmb_categoria.addItems(lista)
 
-    def mostrar_mensaje(self, titulo: str, mensaje: str):
-        """Muestra un QMessageBox informativo."""
-        QMessageBox.information(self, titulo, mensaje)
+    def mostrar_usuario(self, nombre, rol):
+        self.lbl_usuario.setText(f"Conectado: {nombre} ({rol})")
 
-    def mostrar_error(self, titulo: str, mensaje: str):
-        """Muestra un QMessageBox de error."""
-        QMessageBox.critical(self, titulo, mensaje)
+    def mostrar_mensaje(self, t, m):   QMessageBox.information(self, t, m)
+    def mostrar_error(self, t, m):     QMessageBox.critical(self, t, m)
 
 
-# --- Prueba visual de la vista ---
+# ── prueba visual ──
 if __name__ == "__main__":
     import sys
     from PySide6.QtWidgets import QApplication
 
     app = QApplication(sys.argv)
-    ventana = CatalogoView()
-
-    # Simular carga de algunos productos de prueba (ahora con stock)
-    class ProdFalso:
-        def __init__(self, titulo, autor, precio, portada, stock):
-            self.titulo = titulo
-            self.autor = autor
-            self.precio = precio
-            self.portada = portada
-            self.stock = stock
-
-    prod_prueba = [
-        ProdFalso("Libro A", "Autor A", 9.99, "", 5),
-        ProdFalso("Libro B", "Autor B", 14.99, "", 2)
-    ]
-
-    # Asignar un callback dummy para probar los botones "Agregar"
-    def dummy_agregar(titulo, precio):
-        print(f"[Prueba] Agregado al carrito: {titulo} ${precio:.2f}")
-
-    ventana.mostrar_productos(prod_prueba, on_agregar=dummy_agregar)
-    ventana.cargar_autores(["Autor A", "Autor B"])
-    ventana.cargar_categorias(["Ficción", "No ficción"])
-    # Mostrar botones de admin y venta física para prueba visual
-    ventana.btn_admin.setVisible(True)
-    ventana.btn_venta_fisica.setVisible(True)
-    ventana.show()
+    v = CatalogoView()
+    class Falso:
+        def __init__(self, t, a, p, portada, stock):
+            self.titulo, self.autor, self.precio, self.portada, self.stock = t, a, p, portada, stock
+    v.mostrar_productos([
+        Falso("Cien años de soledad", "G. García Márquez", 19.99, "", 10),
+        Falso("El principito", "A. de Saint-Exupéry", 12.50, "", 0),
+        Falso("1984", "George Orwell", 15.00, "", 3),
+        Falso("Python para todos", "John Doe", 22.00, "", 7),
+    ], on_agregar=lambda t, p: print(f"Agregado: {t} ${p}"))
+    v.cargar_autores(["G. García Márquez", "A. de Saint-Exupéry"])
+    v.cargar_categorias(["Novela", "Infantil"])
+    v.mostrar_usuario("admin", "Administrador")
+    v.show()
     sys.exit(app.exec())

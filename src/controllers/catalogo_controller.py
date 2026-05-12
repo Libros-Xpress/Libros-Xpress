@@ -48,6 +48,9 @@ class CatalogoController:
         if self.es_admin:
             self.vista.btn_admin.setVisible(True)
             self.vista.btn_venta_fisica.setVisible(True)
+        # Mostrar información del usuario en la barra superior
+        self.vista.mostrar_usuario(self.usuario_actual,
+                                   "Administrador" if self.es_admin else "Cliente")
         self.mostrar_todos()
 
     def _configurar_senales(self):
