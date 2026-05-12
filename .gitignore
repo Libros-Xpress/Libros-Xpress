@@ -5,3 +5,11 @@ htmlcov/
 build/
 LibrosXpress.spec
 dist/
+dist/
+facturas/
+.pytest_cache
+.sonar
+build
+htmlcov
+.coverage
+LibrosXpress.spec
