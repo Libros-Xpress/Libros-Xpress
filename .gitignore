@@ -9,3 +9,14 @@ htmlcov
 .coverage
 coverage.xml
 LibrosXpress.spec
+__pycache__
+*.pyc
+.pytest_cache
+.sonar
+build
+dist
+facturas
+htmlcov
+.coverage
+coverage.xml
+LibrosXpress.spec
