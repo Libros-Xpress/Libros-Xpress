@@ -1,8 +1,8 @@
 """
 Módulo: auth_controller.py
 Propósito: Controlador de autenticación adaptado al QDialog (Login/Registro) con recuperación simulada.
-Autor: David Solís
-Versión: 2.0.0 – Fase 2 (Login / Registro)
+Autor: Robert Cerón - David Solís - Juan Castro
+Versión: 2.0.0 - Fase 2 (Login / Registro)
 """
 
 import sys, os
