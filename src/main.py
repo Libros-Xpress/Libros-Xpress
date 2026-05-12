@@ -1,7 +1,7 @@
 """
 Módulo: main.py
-Propósito: Punto de entrada de Libros/Xpress con Splash Screen.
-Versión: 2.0.0 - Fase 1 (Splash Screen)
+Propósito: Punto de entrada de Libros/Xpress con Splash Screen y autenticación modal.
+Versión: 2.0.0 – Fase 2 (Login / Registro)
 Autor: David Solís
 """
 
@@ -34,61 +34,64 @@ def main():
 
     # --- Splash Screen ---
     splash = SplashView()
-    splash.esperar_cierre()      # Espera 3 segundos y se cierra solo
+    splash.esperar_cierre()          # 3 segundos, se cierra solo
 
-    # Autenticación
+    # --- Autenticación modal ---
     modelo_usuarios = UsuarioModel("data/database.json")
-    vista_login = LoginView()
+    vista_login = LoginView()        # QDialog
     auth_ctrl = AuthController(vista_login, modelo_usuarios)
-    vista_login.show()
-    app.exec()
+    resultado = vista_login.exec()   # Modal: bloquea hasta que el diálogo se cierra
 
-    if not vista_login.isVisible():
-        usuario_actual = getattr(auth_ctrl, 'usuario_actual', 'admin')
-        rol = "Admin" if usuario_actual == "admin" else "Cliente"
+    # Si el usuario canceló el diálogo (cerró sin autenticarse), salimos
+    if resultado != LoginView.Accepted or not auth_ctrl.usuario_actual:
+        sys.exit(0)
 
-        cupon_model = CuponModel("data/cupones.json")
-        carrito = Carrito()
-        pedido_model = PedidoModel("data/pedidos.json")
-        modelo_productos = ProductoModel("data/productos.json")
-        factura_model = FacturaModel("facturas")
+    usuario_actual = auth_ctrl.usuario_actual
+    rol = auth_ctrl.rol_actual or ("Admin" if usuario_actual == "admin" else "Cliente")
 
-        vista_carrito = CarritoView()
-        carrito_ctrl = CarritoController(
-            vista_carrito, carrito, pedido_model, usuario_actual, cupon_model,
-            modelo_productos=modelo_productos, factura_model=factura_model
+    # A partir de aquí, el resto del flujo es igual
+    cupon_model = CuponModel("data/cupones.json")
+    carrito = Carrito()
+    pedido_model = PedidoModel("data/pedidos.json")
+    modelo_productos = ProductoModel("data/productos.json")
+    factura_model = FacturaModel("facturas")
+
+    vista_carrito = CarritoView()
+    carrito_ctrl = CarritoController(
+        vista_carrito, carrito, pedido_model, usuario_actual, cupon_model,
+        modelo_productos=modelo_productos, factura_model=factura_model
+    )
+
+    admin_ctrl = None
+    if rol == "Admin":
+        vista_admin = AdminProductosView()
+        admin_ctrl = AdminProductosController(vista_admin, modelo_productos)
+
+    vista_historial = HistorialView()
+    historial_ctrl = HistorialController(vista_historial, pedido_model, factura_model)
+
+    venta_fisica_ctrl = None
+    if rol == "Admin":
+        vista_venta_fisica = VentaFisicaView()
+        venta_fisica_ctrl = VentaFisicaController(
+            vista_venta_fisica, modelo_productos, pedido_model, usuario_actual
         )
 
-        admin_ctrl = None
-        if rol == "Admin":
-            vista_admin = AdminProductosView()
-            admin_ctrl = AdminProductosController(vista_admin, modelo_productos)
+    vista_catalogo = CatalogoView()
+    catalogo_ctrl = CatalogoController(
+        vista_catalogo, modelo_productos, carrito_ctrl,
+        admin_ctrl=admin_ctrl, es_admin=(rol == "Admin"),
+        usuario_actual=usuario_actual, historial_ctrl=historial_ctrl,
+        venta_fisica_ctrl=venta_fisica_ctrl
+    )
 
-        vista_historial = HistorialView()
-        historial_ctrl = HistorialController(vista_historial, pedido_model, factura_model)
+    if admin_ctrl:
+        admin_ctrl.refresh_callback = catalogo_ctrl.mostrar_todos
+    if venta_fisica_ctrl:
+        venta_fisica_ctrl.refresh_callback = catalogo_ctrl.mostrar_todos
 
-        venta_fisica_ctrl = None
-        if rol == "Admin":
-            vista_venta_fisica = VentaFisicaView()
-            venta_fisica_ctrl = VentaFisicaController(
-                vista_venta_fisica, modelo_productos, pedido_model, usuario_actual
-            )
-
-        vista_catalogo = CatalogoView()
-        catalogo_ctrl = CatalogoController(
-            vista_catalogo, modelo_productos, carrito_ctrl,
-            admin_ctrl=admin_ctrl, es_admin=(rol == "Admin"),
-            usuario_actual=usuario_actual, historial_ctrl=historial_ctrl,
-            venta_fisica_ctrl=venta_fisica_ctrl
-        )
-
-        if admin_ctrl:
-            admin_ctrl.refresh_callback = catalogo_ctrl.mostrar_todos
-        if venta_fisica_ctrl:
-            venta_fisica_ctrl.refresh_callback = catalogo_ctrl.mostrar_todos
-
-        vista_catalogo.show()
-        sys.exit(app.exec())
+    vista_catalogo.show()
+    sys.exit(app.exec())
 
 if __name__ == "__main__":
     main()
