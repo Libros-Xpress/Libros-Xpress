@@ -1,24 +1,27 @@
 """
 Módulo: admin_productos_view.py
-Propósito: Interfaz gráfica del panel de administración de productos (CRUD) para Libros-Xpress.
-Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.0.0
+Propósito: Panel de administración de productos (CRUD) con diseño Digital‑Shift y carga de portadas.
+Autor: David Solís
+Versión: 2.0.0 – Fase 5 (Panel Admin)
 """
 
+import os, shutil
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QPushButton, QTableWidget, QTableWidgetItem, QHeaderView,
-    QMessageBox, QDialog, QFormLayout, QLineEdit, QDoubleSpinBox, QDialogButtonBox
+    QMessageBox, QDialog, QFormLayout, QLineEdit, QDoubleSpinBox, QDialogButtonBox,
+    QFileDialog, QLabel
 )
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap
 
 class AdminProductosView(QMainWindow):
     """Ventana del panel de administración de productos."""
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Administrar Productos - Libros-Xpress")
-        self.setMinimumSize(800, 600)
+        self.setWindowTitle("Administrar Productos – Libros/Xpress")
+        self.setMinimumSize(850, 620)
         self._configurar_ui()
         self._centrar_en_pantalla()
 
@@ -32,6 +35,8 @@ class AdminProductosView(QMainWindow):
         central = QWidget()
         self.setCentralWidget(central)
         layout = QVBoxLayout(central)
+        layout.setContentsMargins(25, 20, 25, 20)
+        layout.setSpacing(12)
 
         # Tabla de productos
         self.tabla = QTableWidget(0, 6)
@@ -56,15 +61,32 @@ class AdminProductosView(QMainWindow):
         botones_layout.addWidget(self.btn_cerrar)
         layout.addLayout(botones_layout)
 
-        # Estilos
+        # Estilos generales
         self.setStyleSheet("""
-            QMainWindow { background-color: #f5f5f5; }
-            QPushButton { padding: 8px 16px; border-radius: 4px; }
-            QPushButton:hover { opacity: 0.9; }
+            QMainWindow { background-color: #FFF8F0; }
+            QLabel { font-size: 13px; color: #5D4037; }
+            QPushButton {
+                background-color: #8B5E3C; color: white;
+                border: none; padding: 8px 14px; border-radius: 6px;
+                font-size: 13px; font-weight: bold;
+            }
+            QPushButton:hover { background-color: #6B3A2A; }
+            QLineEdit, QDoubleSpinBox, QComboBox {
+                padding: 6px; border: 1px solid #D4A574; border-radius: 6px;
+                background-color: #FFFAF5; color: #3E2723; font-size: 13px;
+            }
+            QTableWidget {
+                background-color: #FFFAF5; border: 1px solid #D4A574;
+                alternate-background-color: #F5E1C0;
+                gridline-color: #D4A574; font-size: 13px; color: #3E2723;
+            }
+            QHeaderView::section {
+                background-color: #8B5E3C; color: white; padding: 6px;
+                font-weight: bold; border: none;
+            }
         """)
 
     def cargar_productos(self, productos: list):
-        """Llena la tabla con los productos."""
         self.tabla.setRowCount(0)
         for prod in productos:
             fila = self.tabla.rowCount()
@@ -77,7 +99,6 @@ class AdminProductosView(QMainWindow):
             self.tabla.setItem(fila, 5, QTableWidgetItem(prod.portada))
 
     def obtener_producto_seleccionado(self) -> dict:
-        """Retorna un diccionario con los datos de la fila seleccionada, o None."""
         fila = self.tabla.currentRow()
         if fila < 0:
             return None
@@ -101,7 +122,7 @@ class AdminProductosView(QMainWindow):
 
 
 class ProductoDialog(QDialog):
-    """Diálogo para agregar o editar un producto."""
+    """Diálogo para agregar o editar un producto, con selector de portada."""
 
     def __init__(self, datos: dict = None, parent=None):
         super().__init__(parent)
@@ -119,20 +140,59 @@ class ProductoDialog(QDialog):
         self.spin_precio.setDecimals(2)
         if self.datos:
             self.spin_precio.setValue(self.datos.get("precio", 0.0))
-        self.txt_portada = QLineEdit(self.datos.get("portada", "") if self.datos else "")
+
         layout.addRow("Título:", self.txt_titulo)
         layout.addRow("Autor:", self.txt_autor)
         layout.addRow("Categoría:", self.txt_categoria)
         layout.addRow("Precio:", self.spin_precio)
-        layout.addRow("Portada (ruta):", self.txt_portada)
+
+        # ── Portada ──
+        portada_layout = QHBoxLayout()
+        self.txt_portada = QLineEdit(self.datos.get("portada", "") if self.datos else "")
+        portada_layout.addWidget(self.txt_portada)
+        btn_examinar = QPushButton("Examinar...")
+        btn_examinar.clicked.connect(self.seleccionar_portada)
+        portada_layout.addWidget(btn_examinar)
+        layout.addRow("Portada:", portada_layout)
+
+        # Previsualización
+        self.lbl_preview = QLabel()
+        self.lbl_preview.setFixedSize(120, 160)
+        self.lbl_preview.setStyleSheet("border: 1px solid #D4A574; border-radius: 6px;")
+        layout.addRow("Vista previa:", self.lbl_preview)
 
         self.botones = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         self.botones.accepted.connect(self.accept)
         self.botones.rejected.connect(self.reject)
         layout.addRow(self.botones)
 
+        # Mostrar vista previa inicial
+        self._actualizar_preview()
+
+    def seleccionar_portada(self):
+        ruta, _ = QFileDialog.getOpenFileName(self, "Seleccionar portada",
+                                              "", "Imágenes (*.png *.jpg *.jpeg *.bmp)")
+        if ruta:
+            # Copiar a assets/img/ si no está ya dentro
+            destino_dir = os.path.join(os.getcwd(), "assets", "img")
+            os.makedirs(destino_dir, exist_ok=True)
+            nombre_base = os.path.basename(ruta)
+            ruta_destino = os.path.join(destino_dir, nombre_base)
+            if not os.path.exists(ruta_destino):
+                shutil.copy(ruta, ruta_destino)
+            self.txt_portada.setText(os.path.join("assets", "img", nombre_base))
+            self._actualizar_preview()
+
+    def _actualizar_preview(self):
+        ruta = self.txt_portada.text().strip()
+        pixmap = QPixmap(ruta)
+        if not pixmap.isNull():
+            pixmap = pixmap.scaled(120, 160, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.lbl_preview.setPixmap(pixmap)
+        else:
+            self.lbl_preview.setText("Sin imagen")
+
     def obtener_datos(self) -> dict:
-        """Retorna un diccionario con los datos ingresados."""
         return {
             "titulo": self.txt_titulo.text().strip(),
             "autor": self.txt_autor.text().strip(),
@@ -142,30 +202,16 @@ class ProductoDialog(QDialog):
         }
 
 
-# --- Prueba visual de la vista ---
+# ── Prueba visual ──
 if __name__ == "__main__":
     import sys
     from PySide6.QtWidgets import QApplication
 
     app = QApplication(sys.argv)
-
-    # Crear algunos productos falsos para probar la vista
-    class ProdFalso:
-        def __init__(self, id, titulo, autor, categoria, precio, portada):
-            self.id = id
-            self.titulo = titulo
-            self.autor = autor
-            self.categoria = categoria
-            self.precio = precio
-            self.portada = portada
-
-    productos_prueba = [
-        ProdFalso(1, "Cien años de soledad", "Gabriel García Márquez", "Novela", 19.99, ""),
-        ProdFalso(2, "El principito", "Antoine de Saint-Exupéry", "Infantil", 12.50, ""),
-        ProdFalso(3, "1984", "George Orwell", "Ciencia ficción", 15.00, "")
-    ]
-
     ventana = AdminProductosView()
-    ventana.cargar_productos(productos_prueba)
+    class P:
+        def __init__(self, i, t, a, c, p, po):
+            self.id, self.titulo, self.autor, self.categoria, self.precio, self.portada = i, t, a, c, p, po
+    ventana.cargar_productos([P(1,"Test","Autor","Cat",9.99,"")])
     ventana.show()
     sys.exit(app.exec())
