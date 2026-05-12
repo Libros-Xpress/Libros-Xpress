@@ -13,3 +13,9 @@ build
 htmlcov
 .coverage
 LibrosXpress.spec
+.pytest_cache
+.sonar
+build
+htmlcov
+.coverage
+LibrosXpress.spec
