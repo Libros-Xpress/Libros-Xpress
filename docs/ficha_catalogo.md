@@ -1,3 +1,4 @@
+cat > docs/ficha_catalogo.md << 'EOF'
 # Ficha de Catalogación del Software
 
 - **Nombre del sistema:** Libros/Xpress
@@ -11,3 +12,4 @@
   - PyInstaller
   - pytest, pytest-cov
   - pdoc
+EOF

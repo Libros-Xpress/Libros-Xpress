@@ -1,0 +1,10 @@
+{
+    "cupones": [
+        {
+            "codigo": "DESC10",
+            "tipo": "porcentaje",
+            "valor": 10,
+            "activo": true
+        }
+    ]
+}
