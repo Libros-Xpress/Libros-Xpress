@@ -1,8 +1,8 @@
 """
 Módulo: catalogo_view.py
 Propósito: Catálogo visual con búsqueda, carrito, panel admin, historial y diseño Digital‑Shift.
-Autor: David Solís
-Versión: 2.0.0 – Fase 3 (Catálogo)
+Autor: Robert Cerón - David Solís - Juan Castro
+Versión: 2.0.0 – Fase 6 (Diferenciación Admin/Cliente)
 """
 
 from PySide6.QtWidgets import (
@@ -10,28 +10,21 @@ from PySide6.QtWidgets import (
     QLineEdit, QComboBox, QPushButton, QLabel, QScrollArea, QGridLayout, QMessageBox
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QPainter, QColor, QFont, QPen, QBrush
+from PySide6.QtGui import QPixmap, QPainter, QColor, QFont, QPen
 
 # ── helpers visuales ──────────────────────────────────────────────
 def crear_portada_placeholder(titulo, ancho=160, alto=210):
-    """Genera un QPixmap decorativo con el título del libro centrado."""
     pix = QPixmap(ancho, alto)
-    pix.fill(QColor("#F5E1C0"))                     # fondo marrón claro
+    pix.fill(QColor("#F5E1C0"))
     painter = QPainter(pix)
     painter.setRenderHint(QPainter.Antialiasing)
-
-    # Borde sutil
     pen = QPen(QColor("#D4A574"), 2)
     painter.setPen(pen)
     painter.drawRoundedRect(2, 2, ancho-4, alto-4, 10, 10)
-
-    # Ícono de libro
     font_icono = QFont("Segoe UI Emoji", 30)
     painter.setFont(font_icono)
     painter.setPen(QColor("#8B5E3C"))
     painter.drawText(pix.rect(), Qt.AlignHCenter | Qt.AlignTop, "\n\n📖")
-
-    # Título del libro
     font_titulo = QFont("Segoe UI", 11, QFont.Bold)
     painter.setFont(font_titulo)
     painter.setPen(QColor("#5D4037"))
@@ -42,8 +35,6 @@ def crear_portada_placeholder(titulo, ancho=160, alto=210):
 
 # ── clase principal ──────────────────────────────────────────────
 class CatalogoView(QMainWindow):
-    """Ventana principal del catálogo de Libros/Xpress."""
-
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Libros/Xpress – Catálogo")
@@ -65,6 +56,8 @@ class CatalogoView(QMainWindow):
         # ── Barra superior (información de usuario) ──
         self.lbl_usuario = QLabel()
         self.lbl_usuario.setFont(QFont("Segoe UI", 10))
+        self.lbl_usuario.setFixedHeight(24)
+        self.lbl_usuario.setAlignment(Qt.AlignCenter)
         self.lbl_usuario.setStyleSheet("color: #6B3A2A; padding: 4px;")
         layout_principal.addWidget(self.lbl_usuario)
 
@@ -74,34 +67,26 @@ class CatalogoView(QMainWindow):
         self.txt_busqueda = QLineEdit()
         self.txt_busqueda.setPlaceholderText("Título del libro…")
         barra.addWidget(self.txt_busqueda)
-
         barra.addWidget(QLabel("Autor:"))
         self.cmb_autor = QComboBox()
         self.cmb_autor.addItem("Todos")
         barra.addWidget(self.cmb_autor)
-
         barra.addWidget(QLabel("Categoría:"))
         self.cmb_categoria = QComboBox()
         self.cmb_categoria.addItem("Todas")
         barra.addWidget(self.cmb_categoria)
-
         self.btn_buscar = QPushButton("Buscar")
         barra.addWidget(self.btn_buscar)
-
         self.btn_carrito = QPushButton("🛒 Carrito")
         barra.addWidget(self.btn_carrito)
-
         self.btn_admin = QPushButton("Panel Admin")
         self.btn_admin.setVisible(False)
         barra.addWidget(self.btn_admin)
-
         self.btn_venta_fisica = QPushButton("Venta Física")
         self.btn_venta_fisica.setVisible(False)
         barra.addWidget(self.btn_venta_fisica)
-
         self.btn_historial = QPushButton("Historial")
         barra.addWidget(self.btn_historial)
-
         layout_principal.addLayout(barra)
 
         # ── Área de resultados ──
@@ -109,7 +94,7 @@ class CatalogoView(QMainWindow):
         self.scroll_area.setWidgetResizable(True)
         self.scroll_widget = QWidget()
         self.scroll_layout = QGridLayout(self.scroll_widget)
-        self.scroll_layout.setAlignment(Qt.AlignTop | Qt.AlignHCenter)  # centrar contenido
+        self.scroll_layout.setAlignment(Qt.AlignTop | Qt.AlignHCenter)
         self.scroll_layout.setHorizontalSpacing(20)
         self.scroll_layout.setVerticalSpacing(20)
         self.scroll_area.setWidget(self.scroll_widget)
@@ -132,14 +117,12 @@ class CatalogoView(QMainWindow):
             QComboBox::drop-down { border: none; }
         """)
 
-    # ── limpieza ──
     def limpiar_resultados(self):
         while self.scroll_layout.count():
             item = self.scroll_layout.takeAt(0)
             if item.widget():
                 item.widget().deleteLater()
 
-    # ── mostrar productos ──
     def mostrar_productos(self, productos, on_agregar=None):
         self.limpiar_resultados()
         if not productos:
@@ -152,17 +135,16 @@ class CatalogoView(QMainWindow):
         for i, prod in enumerate(productos):
             fila, col = i // columnas, i % columnas
 
-            # Tarjeta compacta
             tarjeta = QWidget()
             tarjeta.setStyleSheet("""
                 QWidget { background-color: #FFFAF5; border-radius: 12px;
                           padding: 10px; }
             """)
-            tarjeta.setFixedWidth(230)          # ancho fijo
+            tarjeta.setFixedWidth(230)
             ly = QVBoxLayout(tarjeta)
             ly.setSpacing(4)
 
-            # Portada (tamaño ajustado)
+            # Portada
             lbl_img = QLabel()
             pix = QPixmap(prod.portada)
             if pix.isNull():
@@ -197,21 +179,28 @@ class CatalogoView(QMainWindow):
 
             # Botón Agregar
             btn = QPushButton("Agregar al carrito")
-            btn.setStyleSheet("""
-                QPushButton { background-color: #A5D6A7; color: #1B5E20;
-                              font-weight: bold; border: none; padding: 6px;
-                              border-radius: 6px; font-size: 12px; }
-                QPushButton:hover { background-color: #81C784; }
-            """)
-            if on_agregar:
-                btn.clicked.connect(lambda _, t=prod.titulo, p=prod.precio: on_agregar(t, p))
+            if stock <= 0:
+                btn.setEnabled(False)
+                btn.setStyleSheet("""
+                    QPushButton { background-color: #E0E0E0; color: #9E9E9E;
+                                  font-weight: bold; border: none; padding: 6px;
+                                  border-radius: 6px; font-size: 12px; }
+                """)
+            else:
+                btn.setStyleSheet("""
+                    QPushButton { background-color: #A5D6A7; color: #1B5E20;
+                                  font-weight: bold; border: none; padding: 6px;
+                                  border-radius: 6px; font-size: 12px; }
+                    QPushButton:hover { background-color: #81C784; }
+                """)
+                if on_agregar:
+                    btn.clicked.connect(lambda _, t=prod.titulo, p=prod.precio: on_agregar(t, p))
             ly.addWidget(btn)
 
             self.scroll_layout.addWidget(tarjeta, fila, col)
 
-    # ── accesos ──
-    def obtener_texto_busqueda(self):       return self.txt_busqueda.text().strip()
-    def obtener_autor_seleccionado(self):  return self.cmb_autor.currentText()
+    def obtener_texto_busqueda(self): return self.txt_busqueda.text().strip()
+    def obtener_autor_seleccionado(self): return self.cmb_autor.currentText()
     def obtener_categoria_seleccionada(self): return self.cmb_categoria.currentText()
 
     def cargar_autores(self, lista):
@@ -226,10 +215,15 @@ class CatalogoView(QMainWindow):
 
     def mostrar_usuario(self, nombre, rol):
         self.lbl_usuario.setText(f"Conectado: {nombre} ({rol})")
+        if rol == "Administrador":
+            self.lbl_usuario.setStyleSheet("background-color: #8B5E3C; color: white; "
+                                           "padding: 4px; font-weight: bold;")
+        else:
+            self.lbl_usuario.setStyleSheet("background-color: #D4A574; color: #3E2723; "
+                                           "padding: 4px;")
 
-    def mostrar_mensaje(self, t, m):   QMessageBox.information(self, t, m)
-    def mostrar_error(self, t, m):     QMessageBox.critical(self, t, m)
-
+    def mostrar_mensaje(self, t, m): QMessageBox.information(self, t, m)
+    def mostrar_error(self, t, m): QMessageBox.critical(self, t, m)
 
 # ── prueba visual ──
 if __name__ == "__main__":

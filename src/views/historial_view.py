@@ -1,8 +1,8 @@
 """
 Módulo: historial_view.py
-Propósito: Interfaz gráfica para consultar el historial de pedidos y descargar facturas.
-Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.1.0 - Sprint 4 (Descarga de facturas)
+Propósito: Historial de pedidos y descarga de facturas con diseño Digital‑Shift.
+Autor: David Solís
+Versión: 2.0.0 – Fase 6 (Historial)
 """
 
 from PySide6.QtWidgets import (
@@ -10,14 +10,15 @@ from PySide6.QtWidgets import (
     QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox
 )
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont
 
 class HistorialView(QMainWindow):
     """Ventana para mostrar el historial de pedidos del usuario."""
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Historial de Pedidos - Libros-Xpress")
-        self.setMinimumSize(650, 450)
+        self.setWindowTitle("Historial de Pedidos – Libros/Xpress")
+        self.setMinimumSize(700, 480)
         self._configurar_ui()
         self._centrar_en_pantalla()
 
@@ -31,6 +32,8 @@ class HistorialView(QMainWindow):
         central = QWidget()
         self.setCentralWidget(central)
         layout = QVBoxLayout(central)
+        layout.setContentsMargins(25, 20, 25, 20)
+        layout.setSpacing(12)
 
         # Tabla de pedidos
         self.tabla = QTableWidget(0, 4)
@@ -43,25 +46,35 @@ class HistorialView(QMainWindow):
         # Botones inferiores
         botones_layout = QHBoxLayout()
         self.btn_descargar_factura = QPushButton("Descargar Factura")
-        self.btn_descargar_factura.setStyleSheet("background-color: #0078d4; color: white;")
+        self.btn_descargar_factura.setStyleSheet("background-color: #A5D6A7; color: #1B5E20;")
         btn_cerrar = QPushButton("Cerrar")
+        btn_cerrar.clicked.connect(self.close)
         botones_layout.addWidget(self.btn_descargar_factura)
         botones_layout.addStretch()
         botones_layout.addWidget(btn_cerrar)
         layout.addLayout(botones_layout)
 
-        # Conectar botón cerrar
-        btn_cerrar.clicked.connect(self.close)
-
         # Estilos
         self.setStyleSheet("""
-            QMainWindow { background-color: #f5f5f5; }
-            QTableWidget { background-color: white; border: 1px solid #ddd; }
-            QPushButton { padding: 8px 16px; border-radius: 4px; }
+            QMainWindow { background-color: #FFF8F0; }
+            QTableWidget {
+                background-color: #FFFAF5; border: 1px solid #D4A574;
+                alternate-background-color: #F5E1C0;
+                gridline-color: #D4A574; font-size: 13px; color: #3E2723;
+            }
+            QHeaderView::section {
+                background-color: #8B5E3C; color: white; padding: 6px;
+                font-weight: bold; border: none;
+            }
+            QPushButton {
+                background-color: #8B5E3C; color: white;
+                border: none; padding: 8px 14px; border-radius: 6px;
+                font-size: 13px; font-weight: bold;
+            }
+            QPushButton:hover { background-color: #6B3A2A; }
         """)
 
     def cargar_historial(self, pedidos: list):
-        """Llena la tabla con los pedidos del usuario."""
         self.tabla.setRowCount(0)
         for pedido in pedidos:
             fila = self.tabla.rowCount()
@@ -72,7 +85,6 @@ class HistorialView(QMainWindow):
             self.tabla.setItem(fila, 3, QTableWidgetItem(pedido.get('estado', 'Pendiente')))
 
     def obtener_pedido_seleccionado(self) -> dict:
-        """Retorna un diccionario con los datos del pedido seleccionado, o None si no hay selección."""
         fila = self.tabla.currentRow()
         if fila < 0:
             return None
@@ -83,10 +95,10 @@ class HistorialView(QMainWindow):
             "estado": self.tabla.item(fila, 3).text()
         }
 
-    def mostrar_mensaje(self, titulo: str, mensaje: str):
+    def mostrar_mensaje(self, titulo, mensaje):
         QMessageBox.information(self, titulo, mensaje)
 
-    def mostrar_error(self, titulo: str, mensaje: str):
+    def mostrar_error(self, titulo, mensaje):
         QMessageBox.critical(self, titulo, mensaje)
 
 
@@ -97,7 +109,6 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     ventana = HistorialView()
-    # Simular datos
     pedidos_ejemplo = [
         {"id": 1, "fecha": "2026-05-01", "total": 45.20, "estado": "Entregado"},
         {"id": 2, "fecha": "2026-05-05", "total": 32.99, "estado": "Pendiente"}
