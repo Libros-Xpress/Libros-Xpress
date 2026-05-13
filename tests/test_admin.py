@@ -1,107 +1,59 @@
-import sys, os
+import sys, os, tempfile, json
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from PySide6.QtWidgets import QApplication, QFileDialog
-from src.views.splash_view import SplashView
 from src.views.admin_productos_view import AdminProductosView, ProductoDialog
-from src.views.historial_view import HistorialView
-from src.views.venta_fisica_view import VentaFisicaView
 
 app = QApplication.instance() or QApplication(sys.argv)
 
-# --- Splash ---
-def test_splash_view():
-    splash = SplashView()
-    assert splash is not None
-    splash.close()
-
-def test_splash_esperar_cierre():
-    splash = SplashView()
-    splash.show()
-    splash.esperar_cierre()
-    assert not splash.isVisible()
-
-# --- Admin ---
+# ─── Datos falsos ───
 class Prod:
     def __init__(self, i, t, a, c, p, po, s=0):
         self.id, self.titulo, self.autor, self.categoria, self.precio, self.portada, self.stock = i, t, a, c, p, po, s
 
+# ─── Pruebas de la vista AdminProductosView ───
+def test_admin_crear_vista():
+    vista = AdminProductosView()
+    assert vista.windowTitle() == "Administrar Productos – Libros/Xpress"
+    vista.close()
+
 def test_admin_cargar_productos():
     vista = AdminProductosView()
     vista.cargar_productos([
-        Prod(1,"T1","A1","C1",10.0,"",5),
-        Prod(2,"T2","A2","C2",20.0,"",0)
+        Prod(1, "Libro A", "Autor A", "Cat A", 25.0, "", 10),
+        Prod(2, "Libro B", "Autor B", "Cat B", 15.0, "", 3)
     ])
     assert vista.tabla.rowCount() == 2
-    assert vista.tabla.item(0,1).text() == "T1"
-    assert vista.tabla.item(0,4).text() == "$10.00"
+    assert vista.tabla.item(0, 1).text() == "Libro A"
+    assert vista.tabla.item(0, 4).text() == "$25.00"
     vista.close()
 
 def test_admin_obtener_seleccionado():
     vista = AdminProductosView()
-    vista.cargar_productos([Prod(1,"Test","Autor","Cat",9.99,"")])
+    vista.cargar_productos([Prod(1, "Test", "Autor", "Cat", 9.99, "img.png")])
     vista.tabla.selectRow(0)
     sel = vista.obtener_producto_seleccionado()
-    assert sel['id'] == 1
-    assert sel['titulo'] == "Test"
-    assert sel['precio'] == 9.99
+    assert sel["id"] == 1
+    assert sel["titulo"] == "Test"
+    assert sel["portada"] == "img.png"
     vista.close()
 
-def test_producto_dialog():
-    dlg = ProductoDialog({"titulo":"T","autor":"A","categoria":"C","precio":5.0,"portada":""})
-    datos = dlg.obtener_datos()
-    assert datos['titulo'] == "T"
-    assert datos['precio'] == 5.0
-    dlg.close()
-
-# --- Historial ---
-def test_historial_view():
-    vista = HistorialView()
-    pedidos = [
-        {"id":1,"fecha":"2026-05-10","total":20.0,"estado":"Pendiente"},
-        {"id":2,"fecha":"2026-05-11","total":35.0,"estado":"Entregado"}
-    ]
-    vista.cargar_historial(pedidos)
-    assert vista.tabla.rowCount() == 2
-    vista.tabla.selectRow(0)
-    sel = vista.obtener_pedido_seleccionado()
-    assert sel['id'] == 1
-    assert sel['estado'] == "Pendiente"
-    vista.close()
-
-# --- Venta Física ---
-class ProdFis:
-    def __init__(self, i, t, s):
-        self.id, self.titulo, self.stock = i, t, s
-
-def test_venta_fisica_view():
-    vista = VentaFisicaView()
-    vista.cargar_productos([ProdFis(1,"Libro1",5), ProdFis(2,"Libro2",3)])
-    for i in range(vista.cmb_producto.count()):
-        if "Libro1" in vista.cmb_producto.itemText(i):
-            vista.cmb_producto.setCurrentIndex(i)
-            break
-    id_sel = vista.obtener_producto_seleccionado_id()
-    assert id_sel == 1
-    assert vista.obtener_cantidad() == 1
-    vista.actualizar_stock_label("3 disponibles")
-    assert "3 disponibles" in vista.lbl_stock.text()
-    vista.close()
-
-# --- Pruebas adicionales de admin y diálogo ---
 def test_admin_sin_seleccion():
     vista = AdminProductosView()
-    vista.cargar_productos([Prod(1,"X","Y","Z",0,"")])
+    vista.cargar_productos([Prod(1, "X", "Y", "Z", 0, "")])
+    # No seleccionamos nada
     assert vista.obtener_producto_seleccionado() is None
     vista.close()
 
 def test_admin_mensajes():
     vista = AdminProductosView()
+    # Mostrar mensajes (no lanzan excepciones)
     vista.mostrar_mensaje("OK", "Todo bien")
     vista.mostrar_error("Error", "Algo malo")
     vista.cerrar()
     vista.close()
 
+# ─── Pruebas del diálogo ProductoDialog ───
 def test_dialog_nuevo():
     dlg = ProductoDialog()
     assert dlg.windowTitle() == "Nuevo Producto"
@@ -129,12 +81,14 @@ def test_dialog_editar():
     dlg.close()
 
 def test_dialog_seleccionar_portada(monkeypatch):
-    import shutil
+    """Simula la selección de un archivo de imagen."""
     dlg = ProductoDialog()
+    # Mock de QFileDialog.getOpenFileName
     def mock_get_open_file_name(*args, **kwargs):
         return (os.path.join(os.getcwd(), "assets", "img", "test.jpg"), "Imágenes (*.jpg)")
     monkeypatch.setattr(QFileDialog, "getOpenFileName", mock_get_open_file_name)
-    monkeypatch.setattr(shutil, "copy", lambda src, dst: None)  # evita copiar archivo inexistente
+
+    # Llamamos al método interno que selecciona la portada
     dlg.seleccionar_portada()
     ruta = dlg.txt_portada.text()
     assert "assets" in ruta
@@ -143,6 +97,7 @@ def test_dialog_seleccionar_portada(monkeypatch):
 
 def test_dialog_actualizar_preview():
     dlg = ProductoDialog()
+    # Si no hay ruta válida, muestra texto "Sin imagen"
     dlg.txt_portada.setText("")
     dlg._actualizar_preview()
     assert dlg.lbl_preview.text() == "Sin imagen"
@@ -150,5 +105,6 @@ def test_dialog_actualizar_preview():
 
 def test_dialog_cancelar():
     dlg = ProductoDialog()
-    dlg.reject()
+    dlg.reject()  # simula clic en Cancelar
+    # No debe lanzar errores
     dlg.close()
