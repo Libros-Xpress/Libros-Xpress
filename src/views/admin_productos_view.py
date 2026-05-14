@@ -1,16 +1,16 @@
 """
 Módulo: admin_productos_view.py
-Propósito: Panel de administración de productos (CRUD) con diseño Digital‑Shift y carga de portadas.
-Autor: Robert Cerón - David Solís - Robert Cerón
-Versión: 2.0.0 - Fase 5 (Panel Admin)
+Propósito: Panel de administración de productos (CRUD) con diseño Digital‑Shift y gestión de stock.
+Autor: Robert Cerón
+Versión: 2.0.1 – Corrección de stock en panel admin
 """
 
 import os, shutil
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QPushButton, QTableWidget, QTableWidgetItem, QHeaderView,
-    QMessageBox, QDialog, QFormLayout, QLineEdit, QDoubleSpinBox, QDialogButtonBox,
-    QFileDialog, QLabel
+    QMessageBox, QDialog, QFormLayout, QLineEdit, QDoubleSpinBox,
+    QDialogButtonBox, QFileDialog, QLabel, QSpinBox
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
@@ -21,7 +21,7 @@ class AdminProductosView(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Administrar Productos – Libros/Xpress")
-        self.setMinimumSize(850, 620)
+        self.setMinimumSize(900, 620)
         self._configurar_ui()
         self._centrar_en_pantalla()
 
@@ -38,9 +38,9 @@ class AdminProductosView(QMainWindow):
         layout.setContentsMargins(25, 20, 25, 20)
         layout.setSpacing(12)
 
-        # Tabla de productos
-        self.tabla = QTableWidget(0, 6)
-        self.tabla.setHorizontalHeaderLabels(["ID", "Título", "Autor", "Categoría", "Precio", "Portada"])
+        # Tabla de productos (ahora 7 columnas)
+        self.tabla = QTableWidget(0, 7)
+        self.tabla.setHorizontalHeaderLabels(["ID", "Título", "Autor", "Categoría", "Precio", "Stock", "Portada"])
         self.tabla.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tabla.setSelectionBehavior(QTableWidget.SelectRows)
         self.tabla.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -71,7 +71,7 @@ class AdminProductosView(QMainWindow):
                 font-size: 13px; font-weight: bold;
             }
             QPushButton:hover { background-color: #6B3A2A; }
-            QLineEdit, QDoubleSpinBox, QComboBox {
+            QLineEdit, QDoubleSpinBox, QSpinBox, QComboBox {
                 padding: 6px; border: 1px solid #D4A574; border-radius: 6px;
                 background-color: #FFFAF5; color: #3E2723; font-size: 13px;
             }
@@ -96,7 +96,8 @@ class AdminProductosView(QMainWindow):
             self.tabla.setItem(fila, 2, QTableWidgetItem(prod.autor))
             self.tabla.setItem(fila, 3, QTableWidgetItem(prod.categoria))
             self.tabla.setItem(fila, 4, QTableWidgetItem(f"${prod.precio:.2f}"))
-            self.tabla.setItem(fila, 5, QTableWidgetItem(prod.portada))
+            self.tabla.setItem(fila, 5, QTableWidgetItem(str(prod.stock)))
+            self.tabla.setItem(fila, 6, QTableWidgetItem(prod.portada))
 
     def obtener_producto_seleccionado(self) -> dict:
         fila = self.tabla.currentRow()
@@ -108,7 +109,8 @@ class AdminProductosView(QMainWindow):
             "autor": self.tabla.item(fila, 2).text(),
             "categoria": self.tabla.item(fila, 3).text(),
             "precio": float(self.tabla.item(fila, 4).text().replace("$", "")),
-            "portada": self.tabla.item(fila, 5).text()
+            "stock": int(self.tabla.item(fila, 5).text()),
+            "portada": self.tabla.item(fila, 6).text()
         }
 
     def mostrar_mensaje(self, titulo: str, mensaje: str):
@@ -122,7 +124,7 @@ class AdminProductosView(QMainWindow):
 
 
 class ProductoDialog(QDialog):
-    """Diálogo para agregar o editar un producto, con selector de portada."""
+    """Diálogo para agregar o editar un producto, con selector de portada y campo de stock."""
 
     def __init__(self, datos: dict = None, parent=None):
         super().__init__(parent)
@@ -141,10 +143,17 @@ class ProductoDialog(QDialog):
         if self.datos:
             self.spin_precio.setValue(self.datos.get("precio", 0.0))
 
+        # Nuevo campo de stock
+        self.spin_stock = QSpinBox()
+        self.spin_stock.setRange(0, 9999)
+        if self.datos:
+            self.spin_stock.setValue(self.datos.get("stock", 0))
+
         layout.addRow("Título:", self.txt_titulo)
         layout.addRow("Autor:", self.txt_autor)
         layout.addRow("Categoría:", self.txt_categoria)
         layout.addRow("Precio:", self.spin_precio)
+        layout.addRow("Stock:", self.spin_stock)
 
         # ── Portada ──
         portada_layout = QHBoxLayout()
@@ -173,7 +182,6 @@ class ProductoDialog(QDialog):
         ruta, _ = QFileDialog.getOpenFileName(self, "Seleccionar portada",
                                               "", "Imágenes (*.png *.jpg *.jpeg *.bmp)")
         if ruta:
-            # Copiar a assets/img/ si no está ya dentro
             destino_dir = os.path.join(os.getcwd(), "assets", "img")
             os.makedirs(destino_dir, exist_ok=True)
             nombre_base = os.path.basename(ruta)
@@ -198,6 +206,7 @@ class ProductoDialog(QDialog):
             "autor": self.txt_autor.text().strip(),
             "categoria": self.txt_categoria.text().strip(),
             "precio": self.spin_precio.value(),
+            "stock": self.spin_stock.value(),
             "portada": self.txt_portada.text().strip()
         }
 
@@ -210,8 +219,8 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     ventana = AdminProductosView()
     class P:
-        def __init__(self, i, t, a, c, p, po):
-            self.id, self.titulo, self.autor, self.categoria, self.precio, self.portada = i, t, a, c, p, po
-    ventana.cargar_productos([P(1,"Test","Autor","Cat",9.99,"")])
+        def __init__(self, i, t, a, c, p, s, po):
+            self.id, self.titulo, self.autor, self.categoria, self.precio, self.stock, self.portada = i, t, a, c, p, s, po
+    ventana.cargar_productos([P(1,"Test","Autor","Cat",9.99,5,"")])
     ventana.show()
     sys.exit(app.exec())

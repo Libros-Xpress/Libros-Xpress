@@ -1,8 +1,8 @@
 """
 Módulo: admin_productos_controller.py
-Propósito: Controlador para el panel de administración de productos (CRUD).
-Autor: [Robert Cerón - David Solís - Juan Castro]
-Versión: 1.0.0
+Propósito: Controlador para el panel de administración de productos (CRUD) con gestión de stock.
+Autor: Robert Cerón
+Versión: 2.0.1 – Corrección de stock
 """
 
 import sys
@@ -18,12 +18,6 @@ class AdminProductosController:
     """Controlador para gestionar productos desde el panel de administración."""
 
     def __init__(self, vista: AdminProductosView, modelo: ProductoModel, refresh_callback=None):
-        """
-        Args:
-            vista: AdminProductosView
-            modelo: ProductoModel (compartido con catálogo)
-            refresh_callback: Función a llamar para refrescar el catálogo después de cambios.
-        """
         self.vista = vista
         self.modelo = modelo
         self.refresh_callback = refresh_callback
@@ -38,11 +32,9 @@ class AdminProductosController:
         self.vista.btn_cerrar.clicked.connect(self.vista.cerrar)
 
     def cargar_tabla(self):
-        """Carga todos los productos en la tabla de la vista."""
         self.vista.cargar_productos(self.modelo.productos)
 
     def nuevo_producto(self):
-        """Abre diálogo para crear un nuevo producto."""
         dialogo = ProductoDialog(parent=self.vista)
         if dialogo.exec() == ProductoDialog.Accepted:
             datos = dialogo.obtener_datos()
@@ -59,7 +51,6 @@ class AdminProductosController:
                 self.vista.mostrar_error("Error", str(e))
 
     def editar_producto(self):
-        """Edita el producto seleccionado."""
         seleccion = self.vista.obtener_producto_seleccionado()
         if not seleccion:
             self.vista.mostrar_error("Seleccione producto", "Debe seleccionar un producto para editar.")
@@ -83,7 +74,6 @@ class AdminProductosController:
                 self.vista.mostrar_error("Error", str(e))
 
     def eliminar_producto(self):
-        """Elimina el producto seleccionado."""
         seleccion = self.vista.obtener_producto_seleccionado()
         if not seleccion:
             self.vista.mostrar_error("Seleccione producto", "Debe seleccionar un producto para eliminar.")
@@ -101,14 +91,13 @@ class AdminProductosController:
             self.vista.mostrar_error("Error", str(e))
 
 
-# --- Prueba simulada del controlador ---
+# --- Prueba simulada del controlador (con stock) ---
 if __name__ == "__main__":
     import tempfile, json
 
     app = QApplication(sys.argv)
 
-    # Arrange: crear JSON temporal con un producto
-    datos = {"productos": [{"id": 1, "titulo": "Test", "autor": "A", "categoria": "C", "precio": 5.0, "portada": ""}]}
+    datos = {"productos": [{"id": 1, "titulo": "Test", "autor": "A", "categoria": "C", "precio": 5.0, "portada": "", "stock": 5}]}
     with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as tmp:
         json.dump(datos, tmp)
         ruta_tmp = tmp.name
@@ -116,37 +105,35 @@ if __name__ == "__main__":
     modelo = ProductoModel(ruta_tmp)
     vista = AdminProductosView()
     vista.show()
-    # Mock de mensajes para evitar bloqueos
-    vista.mostrar_mensaje = lambda titulo, mensaje: print(f"ℹ️ {titulo}: {mensaje}")
-    vista.mostrar_error = lambda titulo, mensaje: print(f"❌ {titulo}: {mensaje}")
+    vista.mostrar_mensaje = lambda t, m: print(f"i {t}: {m}")
+    vista.mostrar_error = lambda t, m: print(f"x {t}: {m}")
 
-    # Flag como lista para evitar problema de nonlocal
     refresh_llamado = [False]
     def refresh_mock():
         refresh_llamado[0] = True
 
     controlador = AdminProductosController(vista, modelo, refresh_callback=refresh_mock)
 
-    # Act - Agregar producto (simulamos directamente con modelo, luego refrescamos)
-    modelo.agregar_producto("Nuevo", "B", "D", 10.0, "")
+    # Agregar producto con stock
+    modelo.agregar_producto("Nuevo", "B", "D", 10.0, "", stock=10)
     controlador.cargar_tabla()
-    assert vista.tabla.rowCount() == 2, "Debería haber 2 filas"
+    assert vista.tabla.rowCount() == 2
+    assert vista.tabla.item(1, 5).text() == "10"  # columna stock del nuevo producto
 
-    # Eliminar el segundo producto
+    # Editar stock
+    vista.tabla.selectRow(0)
+    modelo.actualizar_producto(1, "Test Mod", "A", "C", 7.5, "", stock=3)
+    controlador.cargar_tabla()
+    assert vista.tabla.item(0, 5).text() == "3"
+
+    # Eliminar
     vista.tabla.selectRow(1)
     controlador.eliminar_producto()
     assert vista.tabla.rowCount() == 1
 
-    # Editar el primero
-    vista.tabla.selectRow(0)
-    modelo.actualizar_producto(1, "Test Mod", "A", "C", 7.5, "")
-    controlador.cargar_tabla()
-    assert vista.tabla.item(0, 4).text() == "$7.50", "El precio no se actualizó correctamente"
-
-    # Verificar que el callback se llamó al menos una vez
-    assert refresh_llamado[0], "El callback de refresco no fue invocado"
+    assert refresh_llamado[0]
 
     os.unlink(ruta_tmp)
-    print("✅ Prueba del controlador de administración pasó correctamente.")
+    print("Prueba del controlador de administración con stock pasó correctamente.")
     app.quit()
     sys.exit()

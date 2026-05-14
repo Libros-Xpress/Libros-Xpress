@@ -1,8 +1,8 @@
 """
 Módulo: login_view.py
-Propósito: Diálogo de autenticación (login y registro) con diseño decorativo.
-Autor: David Solís
-Versión: 2.0.0 – Fase 2 (Login / Registro)
+Propósito: Diálogo de autenticación (login y registro) con logo corporativo.
+Autor: Robert Cerón - David Solís - Juan Castro
+Versión: 2.0.1 - Logo corporativo
 """
 
 from PySide6.QtWidgets import (
@@ -10,7 +10,8 @@ from PySide6.QtWidgets import (
     QPushButton, QStackedWidget, QMessageBox, QComboBox, QWidget
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
+from PySide6.QtGui import QFont, QPixmap
+import os
 
 class LoginView(QDialog):
     """Ventana de acceso (QDialog) con diseño de la paleta Digital-Shift."""
@@ -18,7 +19,7 @@ class LoginView(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Libros/Xpress – Acceso")
-        self.setFixedSize(480, 480)
+        self.setFixedSize(480, 520)
         self._configurar_ui()
         self._aplicar_estilos()
         self._centrar_en_pantalla()
@@ -31,13 +32,21 @@ class LoginView(QDialog):
 
     def _configurar_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(35, 25, 35, 25)
-        layout.setSpacing(10)
+        layout.setContentsMargins(35, 20, 35, 20)
+        layout.setSpacing(8)
 
+        # --- LOGO ---
+        logo_path = os.path.join("assets", "img", "LOGO-LIBROSXPRESS.png")
+        if os.path.exists(logo_path):
+            lbl_logo = QLabel()
+            pix = QPixmap(logo_path).scaled(75, 75, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            lbl_logo.setPixmap(pix)
+            lbl_logo.setAlignment(Qt.AlignCenter)
+            layout.addWidget(lbl_logo)
 
         # Título principal
         lbl_titulo = QLabel("LIBROS/XPRESS")
-        lbl_titulo.setFont(QFont("Segoe UI", 32, QFont.Bold))
+        lbl_titulo.setFont(QFont("Segoe UI", 28, QFont.Bold))
         lbl_titulo.setAlignment(Qt.AlignCenter)
         layout.addWidget(lbl_titulo)
 
