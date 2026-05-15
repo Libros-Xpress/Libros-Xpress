@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Requisitos Técnicos - Libros/Xpress v2.0.1</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #FFF8F0;
+    padding: 30px;
+    color: #3E2723;
+  }
+  h2 {
+    color: #5D4037;
+    border-bottom: 2px solid #D4A574;
+    padding-bottom: 5px;
+    margin-top: 30px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+    background: #FFFAF5;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  th {
+    background-color: #8B5E3C;
+    color: white;
+    padding: 10px 8px;
+    font-size: 13px;
+    text-align: left;
+    border: 1px solid #6B3A2A;
+  }
+  td {
+    padding: 9px 8px;
+    border: 1px solid #D4A574;
+    font-size: 13px;
+    vertical-align: top;
+  }
+  tr:nth-child(even) {
+    background-color: #F5E1C0;
+  }
+  p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+</style>
+</head>
+<body>
+
+<h2>Requisitos Técnicos – Libros/Xpress v2.0.1</h2>
+
+<p><strong>Introducción</strong><br>
+Este documento define los requisitos funcionales y no funcionales del sistema Libros/Xpress, una aplicación de escritorio desarrollada en Python con PySide6 para la gestión integral de librerías y papelerías. Describe qué debe hacer el sistema, cómo debe comportarse y las restricciones que debe cumplir para garantizar su correcto funcionamiento.</p>
+
+<p><strong>Descripción del Sistema Actual</strong><br>
+Actualmente, muchas librerías y papelerías pequeñas y medianas operan con procesos manuales: el inventario se registra en cuadernos u hojas de cálculo, las ventas se documentan en libretas o tickets, y la facturación se realiza con formatos genéricos. No existe una integración entre la tienda física y un posible canal de ventas en línea, lo que provoca errores de stock, pérdida de tiempo y dificulta la generación de reportes para la toma de decisiones.</p>
+
+<h2>Objetivos del Sistema</h2>
+<table>
+  <tr>
+    <th>Título</th><th>Versión</th><th>Fuentes</th><th>Descripción</th><th>Importancia</th><th>Urgencia</th><th>Estabilidad</th><th>Estado</th>
+  </tr>
+  <tr>
+    <td>Digitalización de procesos operativos</td>
+    <td>v2.0.1</td>
+    <td>Clientes, Administradores de librerías</td>
+    <td>Automatizar la gestión de ventas, inventario y facturación que actualmente se realiza de forma manual</td>
+    <td>Vital</td>
+    <td>Inmediata</td>
+    <td>Alta</td>
+    <td>Implementado</td>
+  </tr>
+  <tr>
+    <td>Plataforma de ventas unificada</td>
+    <td>v2.0.1</td>
+    <td>Dueños de librerías</td>
+    <td>Integrar en un solo sistema las ventas en mostrador y las compras por catálogo dentro del local, con sincronización automática del stock</td>
+    <td>Vital</td>
+    <td>Inmediata</td>
+    <td>Alta</td>
+    <td>Implementado</td>
+  </tr>
+  <tr>
+    <td>Fidelización de clientes</td>
+    <td>v2.0.1</td>
+    <td>Clientes, Marketing</td>
+    <td>Implementar un sistema de cupones de descuento para incentivar compras recurrentes y mejorar la experiencia del cliente</td>
+    <td>Importante</td>
+    <td>Media</td>
+    <td>Alta</td>
+    <td>Implementado</td>
+  </tr>
+  <tr>
+    <td>Mejora de la eficiencia operativa</td>
+    <td>v2.0.1</td>
+    <td>Administradores</td>
+    <td>Reducir errores humanos, eliminar registros duplicados y agilizar el proceso de venta y facturación</td>
+    <td>Importante</td>
+    <td>Media</td>
+    <td>Alta</td>
+    <td>Implementado</td>
+  </tr>
+  <tr>
+    <td>Apoyo a la toma de decisiones</td>
+    <td>v2.0.1</td>
+    <td>Gerentes, Administradores</td>
+    <td>Generar reportes de ventas, inventario y pedidos que permitan al negocio conocer su desempeño y planificar compras</td>
+    <td>Importante</td>
+    <td>Media</td>
+    <td>Alta</td>
+    <td>Implementado</td>
+  </tr>
+</table>
+
+<h2>Requisitos Funcionales</h2>
+<table>
+  <tr>
+    <th>Título</th><th>Versión</th><th>Tipo requisito</th><th>Importancia</th><th>Urgencia</th><th>Estabilidad</th><th>Estado</th>
+  </tr>
+  <tr><td>HU1: Catálogo y Buscador</td><td>v2.0.1</td><td>Funcional</td><td>Vital</td><td>Inmediata</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>HU2: Registro y Autenticación</td><td>v2.0.1</td><td>Funcional</td><td>Vital</td><td>Inmediata</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>HU3: Carrito de Compras y Pago</td><td>v2.0.1</td><td>Funcional</td><td>Vital</td><td>Inmediata</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>HU4: Panel de Administración (CRUD)</td><td>v2.0.1</td><td>Funcional</td><td>Importante</td><td>Media</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>HU5: Cupones de Descuento</td><td>v2.0.1</td><td>Funcional</td><td>Importante</td><td>Media</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>HU6: Historial de Pedidos</td><td>v2.0.1</td><td>Funcional</td><td>Importante</td><td>Media</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>HU7: Sincronización de Stock</td><td>v2.0.1</td><td>Funcional</td><td>Vital</td><td>Inmediata</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>HU8: Facturación PDF</td><td>v2.0.1</td><td>Funcional</td><td>Importante</td><td>Media</td><td>Alta</td><td>Implementado</td></tr>
+</table>
+
+<h2>Requisitos No Funcionales</h2>
+<table>
+  <tr>
+    <th>Título</th><th>Versión</th><th>Tipo requisito</th><th>Importancia</th><th>Urgencia</th><th>Estabilidad</th><th>Estado</th>
+  </tr>
+  <tr><td>Persistencia en archivos JSON</td><td>v2.0.1</td><td>No Funcional</td><td>Vital</td><td>Inmediata</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>Interfaz gráfica con PySide6</td><td>v2.0.1</td><td>No Funcional</td><td>Vital</td><td>Inmediata</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>Ejecutable portable sin instalación</td><td>v2.0.1</td><td>No Funcional</td><td>Importante</td><td>Media</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>Validación de credenciales en login</td><td>v2.0.1</td><td>No Funcional</td><td>Vital</td><td>Inmediata</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>Cálculo automático de impuestos (13%)</td><td>v2.0.1</td><td>No Funcional</td><td>Vital</td><td>Inmediata</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>Compatibilidad con Windows 10/11 (64 bits)</td><td>v2.0.1</td><td>No Funcional</td><td>Vital</td><td>Inmediata</td><td>Alta</td><td>Implementado</td></tr>
+  <tr><td>Documentación técnica con pdoc</td><td>v2.0.1</td><td>No Funcional</td><td>Importante</td><td>Media</td><td>Alta</td><td>Implementado</td></tr>
+</table>
+
+</body>
+</html>
